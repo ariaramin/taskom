@@ -25,6 +25,10 @@ class TaskTypeEnumAdapter extends TypeAdapter<TaskTypeEnum> {
         return TaskTypeEnum.studying;
       case 5:
         return TaskTypeEnum.workout;
+      case 6:
+        return TaskTypeEnum.party;
+      case 7:
+        return TaskTypeEnum.date;
       default:
         return TaskTypeEnum.working;
     }
@@ -50,6 +54,12 @@ class TaskTypeEnumAdapter extends TypeAdapter<TaskTypeEnum> {
         break;
       case TaskTypeEnum.workout:
         writer.writeByte(5);
+        break;
+      case TaskTypeEnum.party:
+        writer.writeByte(6);
+        break;
+      case TaskTypeEnum.date:
+        writer.writeByte(7);
         break;
     }
   }

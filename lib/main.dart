@@ -4,9 +4,7 @@ import 'package:taskom/constants/constants.dart';
 import 'package:taskom/models/task.dart';
 import 'package:taskom/models/task_type.dart';
 import 'package:taskom/models/task_type_enum.dart';
-import 'package:taskom/screen/add_task_screen.dart';
 import 'package:taskom/screen/home_screen.dart';
-import 'package:taskom/widgets/task_widget.dart';
 
 void main() async {
   await Hive.initFlutter();

@@ -20,13 +20,13 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Task>? _taskList;
   ValueListenable<Box<Task>>? _valueListenable;
   bool _isSearchListEmpty = false;
+  String? _searchValue;
   bool _isFabVisible = true;
 
   @override
   void initState() {
     super.initState();
     _taskList = _taskBox.values.toList();
-    _valueListenable = _taskBox.listenable();
   }
 
   @override
@@ -39,12 +39,17 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Visibility(
-              visible: !_isSearchListEmpty && _taskList!.isEmpty,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 76),
-                child: Image.asset("images/completed.png"),
-              ),
+            ValueListenableBuilder(
+              valueListenable: _taskBox.listenable(),
+              builder: (context, value, child) {
+                return Visibility(
+                  visible: !_isSearchListEmpty && _taskBox.values.isEmpty,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 76),
+                    child: Image.asset("images/completed.png"),
+                  ),
+                );
+              },
             ),
             Visibility(
               visible: _isSearchListEmpty,
@@ -63,11 +68,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Visibility(
-              visible: !_isSearchListEmpty,
-              child: Expanded(
-                child: _getTaskList(),
-              ),
+            ValueListenableBuilder(
+              valueListenable: _taskBox.listenable(),
+              builder: (context, value, child) {
+                return Visibility(
+                  visible: !_isSearchListEmpty && _taskBox.values.isNotEmpty,
+                  // visible: true,
+                  child: Expanded(
+                    child: _getTaskList(),
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -78,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _getTaskList() {
     return ValueListenableBuilder(
-      valueListenable: _valueListenable!,
+      valueListenable: _taskBox.listenable(),
       builder: (context, value, child) {
         return NotificationListener<UserScrollNotification>(
           onNotification: (notification) {
@@ -91,12 +102,21 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             return true;
           },
-          child: ListView.builder(
-            itemCount: _taskBox.values.toList().length,
-            itemBuilder: (context, index) {
-              var task = _taskBox.values.toList()[index];
-              return _getListItem(task);
-            },
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ListView.builder(
+              reverse: true,
+              shrinkWrap: true,
+              itemCount: _searchValue == "" || _searchValue == null
+                  ? _taskBox.values.toList().length
+                  : _taskList!.length,
+              itemBuilder: (context, index) {
+                var task = _searchValue == "" || _searchValue == null
+                    ? _taskBox.values.toList()[index]
+                    : _taskList![index];
+                return _getListItem(task);
+              },
+            ),
           ),
         );
       },
@@ -108,9 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
       key: UniqueKey(),
       onDismissed: (direction) {
         task.delete();
-        setState(() {
-          _taskList = _taskBox.values.toList();
-        });
       },
       child: TaskWidget(task),
     );
@@ -154,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
       title: Text("تسکام"),
       centerTitle: true,
       bottom: PreferredSize(
-        preferredSize: Size.fromHeight(62),
+        preferredSize: Size.fromHeight(82),
         child: _getSearchBox(context),
       ),
     );
@@ -165,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
       padding: EdgeInsets.only(
         left: 12,
         right: 12,
-        top: 20,
+        top: 22,
         bottom: 14,
       ),
       child: Directionality(
@@ -207,6 +224,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _search(String value) {
+    setState(() {
+      _searchValue = value;
+    });
+
     List<Task> searchedList = [];
     searchedList = _taskBox.values.toList().where((element) {
       return element.title.toLowerCase().contains(value.toLowerCase()) ||

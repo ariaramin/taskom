@@ -1,6 +1,6 @@
 # taskom
 
-A new Flutter project.
+![image](preview/taskom.png)
 
 ## Getting Started
 

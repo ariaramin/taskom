@@ -1,5 +1,4 @@
-import 'package:hive/hive.dart';
-
+import 'package:hive_flutter/hive_flutter.dart';
 part 'task_type_enum.g.dart';
 
 @HiveType(typeId: 5)
@@ -20,5 +19,11 @@ enum TaskTypeEnum {
   studying,
 
   @HiveField(5)
-  workout
+  workout,
+
+  @HiveField(6)
+  party,
+
+  @HiveField(7)
+  date
 }

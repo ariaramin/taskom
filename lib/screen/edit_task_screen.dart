@@ -41,6 +41,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     return Scaffold(
       backgroundColor: greyColor,
       resizeToAvoidBottomInset: false,
+      appBar: _getAppBar(),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -58,39 +59,43 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                 _getTaskTypeList(),
               ],
             ),
-            Container(
-              width: double.infinity,
-              height: 46,
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: TextButton(
-                onPressed: () {
-                  var taskTitle = _titleTextController!.text;
-                  var taskSubTitle = _subtitleTextController!.text;
-                  if (_isTextFieldsNotEmpty()) {
-                    _editTask(taskTitle, taskSubTitle);
-                    Navigator.of(context).pop();
-                  }
-                },
-                style: TextButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  backgroundColor: primaryColor,
-                  foregroundColor: whiteColor,
-                  textStyle: TextStyle(
-                    fontFamily: 'Shabnam',
-                    fontSize: 16,
-                  ),
-                ),
-                child: Text(
-                  'اضافه کردن تسک',
-                  style: TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ),
-            ),
+            _getButton(context),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _getButton(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 46,
+      padding: EdgeInsets.symmetric(horizontal: 24),
+      child: TextButton(
+        onPressed: () {
+          var taskTitle = _titleTextController!.text;
+          var taskSubTitle = _subtitleTextController!.text;
+          if (_isTextFieldsNotEmpty()) {
+            _editTask(taskTitle, taskSubTitle);
+            Navigator.of(context).pop();
+          }
+        },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          backgroundColor: primaryColor,
+          foregroundColor: whiteColor,
+          textStyle: TextStyle(
+            fontFamily: 'Shabnam',
+            fontSize: 16,
+          ),
+        ),
+        child: Text(
+          'ویرایش کن',
+          style: TextStyle(
+            fontSize: 14,
+          ),
         ),
       ),
     );
@@ -161,37 +166,37 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             ],
           ),
         ),
-        InkWell(
-          onTap: () {
-            Navigator.of(context).push(
-              showPicker(
-                context: context,
-                value: _time!,
-                cancelText: "بیخیال",
-                cancelStyle: TextStyle(
-                  fontFamily: "Shabnam",
-                  color: Colors.red,
-                ),
-                is24HrFormat: true,
-                okText: "انتخاب",
-                okStyle: TextStyle(
-                  fontFamily: "Shabnam",
-                  color: greenColor,
-                ),
-                onChange: (TimeOfDay timeOfDay) {
-                  setState(() {
-                    _time = timeOfDay;
-                  });
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              InkWell(
+                onTap: () {
+                  Navigator.of(context).push(
+                    showPicker(
+                      context: context,
+                      value: _time!,
+                      cancelText: "بیخیال",
+                      cancelStyle: TextStyle(
+                        fontFamily: "Shabnam",
+                        color: Colors.red,
+                      ),
+                      is24HrFormat: true,
+                      okText: "انتخاب",
+                      okStyle: TextStyle(
+                        fontFamily: "Shabnam",
+                        color: greenColor,
+                      ),
+                      onChange: (TimeOfDay timeOfDay) {
+                        setState(() {
+                          _time = timeOfDay;
+                        });
+                      },
+                    ),
+                  );
                 },
-              ),
-            );
-          },
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
+                child: Container(
                   width: 92,
                   height: 34,
                   decoration: BoxDecoration(
@@ -217,8 +222,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ],
@@ -346,6 +351,15 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
       return false;
     }
     return true;
+  }
+
+  AppBar _getAppBar() {
+    return AppBar(
+      backgroundColor: primaryColor,
+      elevation: 0,
+      title: Text("ویرایش کردن تسک"),
+      centerTitle: true,
+    );
   }
 
   _editTask(String taskTitle, String taskSubTitle) {

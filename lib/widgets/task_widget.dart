@@ -76,6 +76,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
+                    textDirection: TextDirection.rtl,
                   ),
                   // _getTitle(),
                 ],
@@ -84,8 +85,10 @@ class _TaskWidgetState extends State<TaskWidget> {
                 widget.task.subTitle,
                 style: TextStyle(
                   fontSize: 12,
+                  color: blackColor.withOpacity(.6),
                 ),
                 overflow: TextOverflow.ellipsis,
+                textDirection: TextDirection.rtl,
               ),
               Spacer(),
               _getButtons(),

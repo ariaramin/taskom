@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:taskom/models/task_type.dart';
 import 'package:taskom/models/task_type_enum.dart';
 
@@ -16,19 +14,29 @@ List<TaskType> getTaskTypeList() {
       taskTypeEnum: TaskTypeEnum.workout,
     ),
     TaskType(
-      image: "images/meeting.png",
-      title: "جلسه",
-      taskTypeEnum: TaskTypeEnum.meeting,
-    ),
-    TaskType(
       image: "images/working.png",
       title: "کار",
       taskTypeEnum: TaskTypeEnum.working,
     ),
     TaskType(
+      image: "images/meeting.png",
+      title: "جلسه",
+      taskTypeEnum: TaskTypeEnum.meeting,
+    ),
+    TaskType(
+      image: "images/date.png",
+      title: "ملاقات",
+      taskTypeEnum: TaskTypeEnum.date,
+    ),
+    TaskType(
       image: "images/studying.png",
-      title: "درس خواندن",
+      title: "مطالعه",
       taskTypeEnum: TaskTypeEnum.studying,
+    ),
+    TaskType(
+      image: "images/party.png",
+      title: "مهمونی",
+      taskTypeEnum: TaskTypeEnum.party,
     ),
     TaskType(
       image: "images/meditation.png",
