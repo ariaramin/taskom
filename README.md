@@ -1,6 +1,6 @@
 # taskom
 
-![image](preview/taskom.png)
+![image](preview/preview.png)
 
 ## Getting Started
 
