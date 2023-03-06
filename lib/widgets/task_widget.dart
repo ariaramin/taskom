@@ -3,7 +3,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:taskom/constants/constants.dart';
 import 'package:taskom/screen/edit_task_screen.dart';
-import 'package:taskom/utility/utility.dart';
+import 'package:taskom/config/utility/utility.dart';
 
 import '../models/task.dart';
 

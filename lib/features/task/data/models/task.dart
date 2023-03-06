@@ -5,13 +5,14 @@ import 'package:taskom/models/task_type.dart';
 part 'task.g.dart';
 
 @HiveType(typeId: 3)
-class Task extends HiveObject {
-  Task(
-      {required this.title,
-      required this.subTitle,
-      this.isDone = false,
-      required this.time,
-      required this.taskType});
+class TaskModel extends HiveObject {
+  TaskModel({
+    required this.title,
+    required this.subTitle,
+    this.isDone = false,
+    required this.time,
+    required this.taskType,
+  });
 
   @HiveField(0)
   String title;

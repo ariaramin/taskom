@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:taskom/constants/constants.dart';
-import 'package:taskom/utility/utility.dart';
+import 'package:taskom/config/utility/utility.dart';
 import 'package:taskom/widgets/task_type_widget.dart';
 
 import '../models/task.dart';
