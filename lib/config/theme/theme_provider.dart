@@ -3,8 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taskom/di/di.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  SharedPreferences _preferences = locator.get();
-  static const THEME_KEY = "theme_key";
+  final SharedPreferences _preferences = locator.get();
+  static const String THEME_KEY = "theme_key";
   late bool _isDark;
 
   bool get isDark => _isDark;

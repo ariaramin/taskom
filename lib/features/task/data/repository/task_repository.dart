@@ -1,13 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/features/task/data/util/failure.dart';
+import 'package:taskom/features/task/data/util/filter.dart';
 
 abstract class TaskRepository {
-  Either<Failure, List<TaskModel>> getAllTasks();
+  Future<Either<Failure, List<TaskModel>>> getAllTasks(Filter? filter);
 
-  Either<Failure, TaskModel> getTask(String id);
+  Future<Either<Failure, TaskModel>> getTask(String id);
 
-  Future<Either<Failure, String>> addUpdateTask(String id, TaskModel item);
+  Future<Either<Failure, String>> addTask(TaskModel taskModel);
+
+  Future<Either<Failure, String>> updateTask(TaskModel taskModel);
 
   Future<Either<Failure, String>> deleteTask(String id);
 }

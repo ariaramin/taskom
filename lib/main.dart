@@ -1,25 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/config/route/app_route.dart';
+import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_theme.dart';
 import 'package:taskom/config/theme/theme_provider.dart';
 import 'package:taskom/di/di.dart';
-import 'package:taskom/features/task/data/models/task.dart';
-import 'package:taskom/models/task.dart';
-import 'package:taskom/models/task_type.dart';
-import 'package:taskom/models/task_type_enum.dart';
-import 'package:taskom/screen/home_screen.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(TaskAdapter());
-  Hive.registerAdapter(TaskTypeAdapter());
-  Hive.registerAdapter(TaskTypeEnumAdapter());
-  Hive.registerAdapter(TimeOfDayAdapter());
-  await Hive.openBox<TaskModel>(Constants.DATABASE_BOX);
-  await InitGetIt();
-  runApp(Application());
+  await initGetIt();
+  runApp(const Application());
 }
 
 class Application extends StatelessWidget {
@@ -36,11 +25,8 @@ class Application extends StatelessWidget {
             theme: AppTheme.light,
             darkTheme: AppTheme.dark,
             themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
-            home: Scaffold(
-              body: Center(
-                child: HomeScreen(),
-              ),
-            ),
+            onGenerateRoute: (settings) => AppRoute.generate(settings),
+            initialRoute: AppRouteNames.base,
           );
         },
       ),

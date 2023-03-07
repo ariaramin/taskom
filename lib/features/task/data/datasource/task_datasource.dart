@@ -1,11 +1,14 @@
 import 'package:taskom/features/task/data/models/task.dart';
+import 'package:taskom/features/task/data/util/filter.dart';
 
 abstract class TaskDatasource {
-  List<TaskModel> getAllTasks();
+  Future<List<TaskModel>> getAllTasks(Filter? filter);
 
-  TaskModel getTask(String id);
+  Future<TaskModel> getTask(String id);
 
-  Future addUpdateTask(String id, TaskModel item);
+  Future addTask(TaskModel taskModel);
+
+  Future updateTask(TaskModel taskModel);
 
   Future deleteTask(String id);
 }

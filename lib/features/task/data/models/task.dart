@@ -1,31 +1,47 @@
-import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:taskom/models/task_type.dart';
+import 'package:taskom/config/constants/constants.dart';
 
-part 'task.g.dart';
+class TaskModel {
+  final String? id;
+  final String? userId;
+  final String? thumbnail;
+  final String? title;
+  final String? note;
+  final String? categoryId;
+  final bool? isDone;
+  final DateTime? dateTime;
 
-@HiveType(typeId: 3)
-class TaskModel extends HiveObject {
   TaskModel({
-    required this.title,
-    required this.subTitle,
-    this.isDone = false,
-    required this.time,
-    required this.taskType,
+    this.id,
+    this.userId,
+    this.thumbnail,
+    this.title,
+    this.note,
+    this.categoryId,
+    this.isDone,
+    this.dateTime,
   });
 
-  @HiveField(0)
-  String title;
+  factory TaskModel.fromMapJson(Map<String, dynamic> jsonObject) {
+    return TaskModel(
+      id: jsonObject['id'],
+      userId: jsonObject['user'],
+      thumbnail:
+          '${Constants.BASE_URL}files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
+      title: jsonObject['title'],
+      note: jsonObject['note'],
+      categoryId: jsonObject['category'],
+      isDone: jsonObject['isDone'],
+      dateTime: jsonObject['dateTime'],
+    );
+  }
 
-  @HiveField(1)
-  String subTitle;
-
-  @HiveField(2)
-  bool isDone;
-
-  @HiveField(3)
-  TimeOfDay time;
-
-  @HiveField(4)
-  TaskType taskType;
+  toJson() => {
+        userId: userId,
+        thumbnail: thumbnail,
+        title: title,
+        note: note,
+        categoryId: categoryId,
+        isDone: isDone,
+        dateTime: dateTime,
+      };
 }

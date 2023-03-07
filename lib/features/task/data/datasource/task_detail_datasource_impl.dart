@@ -1,25 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/di/di.dart';
-import 'package:taskom/features/task/data/datasource/task_datasource.dart';
-import 'package:taskom/features/task/data/models/task.dart';
+import 'package:taskom/features/task/data/datasource/task_detail_datasource.dart';
+import 'package:taskom/features/task/data/models/gallery.dart';
+import 'package:taskom/features/task/data/models/category.dart';
 import 'package:taskom/features/task/data/util/api_exception.dart';
-import 'package:taskom/features/task/data/util/filter.dart';
 
-class TaskDatasourceImpl extends TaskDatasource {
+class TaskDetailDatasourceImpl extends TaskDetailDatasource {
   final Dio _dio = locator.get();
 
   @override
-  Future<List<TaskModel>> getAllTasks(Filter? filter) async {
+  Future<List<Category>> getAllCategories() async {
     try {
-      var response = await _dio.get(
-        Constants.TASKS_RECORDS_URL,
-        queryParameters: {
-          "filter": filter?.filterSequence,
-        },
-      );
+      var response = await _dio.get(Constants.CATEGORIES_RECORDS_URL);
       return response.data['items']
-          .map<TaskModel>((jsonObject) => TaskModel.fromMapJson(jsonObject))
+          .map<Category>((jsonObject) => Category.fromMapJson(jsonObject))
           .toList();
     } on DioError catch (error) {
       throw ApiException(
@@ -32,16 +27,16 @@ class TaskDatasourceImpl extends TaskDatasource {
   }
 
   @override
-  Future<TaskModel> getTask(String id) async {
+  Future<Category> getCategory(String id) async {
     try {
       var response = await _dio.get(
-        Constants.TASKS_RECORDS_URL,
+        Constants.CATEGORIES_RECORDS_URL,
         queryParameters: {
           "filter": "id='$id'",
         },
       );
       return response.data['items']
-          .map<TaskModel>((jsonObject) => TaskModel.fromMapJson(jsonObject))
+          .map<Category>((jsonObject) => Category.fromMapJson(jsonObject))
           .toList()[0];
     } on DioError catch (error) {
       throw ApiException(
@@ -54,12 +49,12 @@ class TaskDatasourceImpl extends TaskDatasource {
   }
 
   @override
-  Future addTask(TaskModel taskModel) async {
+  Future<List<Gallery>> getAllGallery() async {
     try {
-      await _dio.post(
-        Constants.TASKS_RECORDS_URL,
-        data: taskModel.toJson(),
-      );
+      var response = await _dio.get(Constants.GALLERY_RECORDS_URL);
+      return response.data['items']
+          .map<Gallery>((jsonObject) => Gallery.fromMapJson(jsonObject))
+          .toList();
     } on DioError catch (error) {
       throw ApiException(
         code: error.response?.statusCode,
@@ -71,26 +66,17 @@ class TaskDatasourceImpl extends TaskDatasource {
   }
 
   @override
-  Future updateTask(TaskModel taskModel) async {
+  Future<Gallery> getGallery(String id) async {
     try {
-      await _dio.patch(
-        "${Constants.TASKS_RECORDS_URL}:${taskModel.id}",
-        data: taskModel.toJson(),
+      var response = await _dio.get(
+        Constants.GALLERY_RECORDS_URL,
+        queryParameters: {
+          "filter": "id='$id'",
+        },
       );
-    } on DioError catch (error) {
-      throw ApiException(
-        code: error.response?.statusCode,
-        message: error.response?.data["message"],
-      );
-    } catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future deleteTask(String id) async {
-    try {
-      await _dio.delete("${Constants.TASKS_RECORDS_URL}:${id}");
+      return response.data['items']
+          .map<Gallery>((jsonObject) => Gallery.fromMapJson(jsonObject))
+          .toList()[0];
     } on DioError catch (error) {
       throw ApiException(
         code: error.response?.statusCode,
