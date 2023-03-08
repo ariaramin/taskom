@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/features/base/presentation/widgets/bottom_navigation.dart';
 import 'package:taskom/features/home/presentation/home_screen.dart';
+import 'package:taskom/features/task/presentation/task_list_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});
@@ -33,7 +34,7 @@ class _BaseScreenState extends State<BaseScreen> {
   List<Widget> _getScreens() {
     return const [
       HomeScreen(),
-      HomeScreen(),
+      TaskListScreen(),
       HomeScreen(),
     ];
   }

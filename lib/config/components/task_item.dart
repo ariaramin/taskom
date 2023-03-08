@@ -32,7 +32,7 @@ class _TaskItemState extends State<TaskItem> {
       onTap: () {},
       child: Container(
         width: double.infinity,
-        height: 146,
+        height: 138,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(20),
@@ -92,9 +92,11 @@ class _TaskItemState extends State<TaskItem> {
                 // widget.task.subTitle,
                 "تمرین کتاب آموزشگاه",
                 style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.black.withOpacity(.6),
-                ),
+                    fontSize: 12,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(.6)),
                 overflow: TextOverflow.ellipsis,
               ),
               const Spacer(),

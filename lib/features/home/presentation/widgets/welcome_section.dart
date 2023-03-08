@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class WelcomeSection extends StatelessWidget {
@@ -13,8 +14,10 @@ class WelcomeSection extends StatelessWidget {
         Container(
           width: 54,
           height: 54,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
+          decoration: ShapeDecoration(
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(48),
+            ),
             color: AppColors.secondaryColor,
             image: const DecorationImage(
               image: AssetImage("assets/images/avatar.png"),
@@ -47,15 +50,15 @@ class WelcomeSection extends StatelessWidget {
                 ),
               ],
             ),
-            const Text(
-              "۱۶ اسفند",
-              style: TextStyle(
+            Text(
+              DateTime.now().getJalaliDayAndMonth(),
+              style: const TextStyle(
                 fontSize: 12,
                 color: AppColors.greyColor,
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }

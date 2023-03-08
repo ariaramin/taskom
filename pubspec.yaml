@@ -15,6 +15,9 @@ dependencies:
   flutter_svg: ^1.1.6
   day_night_time_picker: ^1.1.3
   msh_checkbox: ^2.0.1
+  simple_circular_progress_bar: ^1.0.2
+  shamsi_date: ^1.0.1
+  scroll_to_index: ^3.0.1
   cupertino_icons: ^1.0.2
   hexcolor: ^3.0.1
   provider: ^6.0.3
@@ -25,6 +28,7 @@ dependencies:
   equatable: ^2.0.5
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.3  
+
 
 dev_dependencies:
   flutter_test:

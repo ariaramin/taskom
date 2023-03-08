@@ -11,10 +11,12 @@ class CategoryItem extends StatelessWidget {
     return Container(
       width: 136,
       height: 174,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+      decoration: ShapeDecoration(
+        shape: ContinuousRectangleBorder(
+          borderRadius: BorderRadius.circular(48),
+        ),
         color: Colors.pink,
-        boxShadow: const [
+        shadows: const [
           BoxShadow(
             color: Colors.pink,
             blurRadius: 25,
@@ -55,6 +57,7 @@ class CategoryItem extends StatelessWidget {
                       child: Text(
                         "آموزش",
                         style: TextStyle(
+                          color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

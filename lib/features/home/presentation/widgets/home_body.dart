@@ -15,11 +15,11 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 6,
+    return const DefaultTabController(
+      length: 8,
       child: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: CustomAppBar(
               rightSection: WelcomeSection(),
               leftSection: AppChip(
@@ -28,27 +28,27 @@ class HomeBody extends StatelessWidget {
               ),
             ),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: SearchContainer(),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: SectionTitle(
               title: "دسته‌بندی ها",
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(top: 22),
+            padding: EdgeInsets.only(top: 22),
             sliver: SliverToBoxAdapter(
               child: CategoryList(),
             ),
           ),
-          const SliverToBoxAdapter(
+          SliverToBoxAdapter(
             child: SectionTitle(
               title: "تسک های امروز",
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               top: 16,
               bottom: 8,
             ),
@@ -56,9 +56,7 @@ class HomeBody extends StatelessWidget {
               child: TimeLineTabBar(),
             ),
           ),
-          SliverFillRemaining(
-            child: TaskList(),
-          ),
+          TaskList(),
         ],
       ),
     );

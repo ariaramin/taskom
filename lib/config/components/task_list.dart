@@ -8,19 +8,19 @@ class TaskList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: 4,
-      itemBuilder: (context, index) {
-        return const Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 14,
-            vertical: 10,
-          ),
-          child: TaskItem(),
-        );
-      },
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: 5,
+        (context, index) {
+          return const Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 10,
+            ),
+            child: TaskItem(),
+          );
+        },
+      ),
     );
   }
 }

@@ -36,7 +36,7 @@ class TimeLineTabBar extends StatelessWidget {
           ),
           isScrollable: true,
           unselectedLabelColor: AppColors.greyColor,
-          labelColor: Colors.black,
+          labelColor: Theme.of(context).colorScheme.onBackground,
           labelStyle: const TextStyle(
             fontFamily: "Shabnam",
             fontSize: 14,
@@ -50,6 +50,8 @@ class TimeLineTabBar extends StatelessWidget {
             Tab(text: '۱ - ۱۱:۳۰'),
             Tab(text: '۲:۳۰ - ۱'),
             Tab(text: '۴ - ۲:۳۰'),
+            Tab(text: '۵:۳۰ - ۴'),
+            Tab(text: '۷ - ۵:۳۰'),
           ],
         ),
       ],
