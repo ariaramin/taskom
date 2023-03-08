@@ -27,6 +27,10 @@ class AppChip extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              widget ?? const SizedBox(),
+              SizedBox(
+                width: widget != null ? 8 : 0,
+              ),
               Text(
                 title,
                 style: TextStyle(
@@ -34,10 +38,6 @@ class AppChip extends StatelessWidget {
                   color: isLight ? AppColors.primaryColor : Colors.white,
                 ),
               ),
-              SizedBox(
-                width: widget != null ? 8 : 0,
-              ),
-              widget ?? const SizedBox(),
             ],
           ),
         ),

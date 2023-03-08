@@ -7,6 +7,8 @@ import 'package:taskom/config/theme/theme_provider.dart';
 import 'package:taskom/di/di.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   await initGetIt();
   runApp(const Application());
 }
