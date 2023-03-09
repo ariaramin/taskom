@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:taskom/features/task/data/models/category.dart';
 
 class CategoryItem extends StatelessWidget {
+  final Category category;
+
   const CategoryItem({
     Key? key,
+    required this.category,
   }) : super(key: key);
 
   @override
@@ -15,25 +20,25 @@ class CategoryItem extends StatelessWidget {
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(48),
         ),
-        color: Colors.pink,
-        shadows: const [
+        color: HexColor(category.color!),
+        shadows: [
           BoxShadow(
-            color: Colors.pink,
+            color: HexColor(category.color!),
             blurRadius: 25,
             spreadRadius: -12,
-            offset: Offset(0, 16),
+            offset: const Offset(0, 16),
           ),
         ],
       ),
       child: Stack(
         children: [
           Positioned(
-            top: -32,
+            top: -34,
             left: 0,
             right: 0,
-            child: SvgPicture.asset(
-              "assets/icons/Education.svg",
-              width: 120,
+            child: SvgPicture.network(
+              category.icon!,
+              height: 118,
             ),
           ),
           Positioned(
@@ -42,7 +47,7 @@ class CategoryItem extends StatelessWidget {
             bottom: 16,
             child: Column(
               children: [
-                SvgPicture.asset("assets/icons/Education.svg"),
+                SvgPicture.network(category.icon!),
                 const SizedBox(
                   height: 8,
                 ),
@@ -51,12 +56,12 @@ class CategoryItem extends StatelessWidget {
                     borderRadius: BorderRadius.circular(32),
                     color: Colors.white,
                   ),
-                  child: const Padding(
-                    padding: EdgeInsets.all(4),
+                  child: Padding(
+                    padding: const EdgeInsets.all(4),
                     child: Center(
                       child: Text(
-                        "آموزش",
-                        style: TextStyle(
+                        category.title!,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),

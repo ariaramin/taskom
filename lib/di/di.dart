@@ -10,6 +10,7 @@ import 'package:taskom/features/task/data/repository/task_detail_repository.dart
 import 'package:taskom/features/task/data/repository/task_detail_repository_impl.dart';
 import 'package:taskom/features/task/data/repository/task_repository.dart';
 import 'package:taskom/features/task/data/repository/task_repository_impl.dart';
+import 'package:taskom/features/task/domain/get_all_categories.dart';
 
 var locator = GetIt.instance;
 
@@ -32,4 +33,7 @@ Future initGetIt() async {
   locator.registerFactory<TaskRepository>(() => TaskRepositoryImpl());
   locator
       .registerFactory<TaskDetailRepository>(() => TaskDetailRepositoryImpl());
+
+  // usecase
+  locator.registerFactory<GetAllCategories>(() => GetAllCategories());
 }
