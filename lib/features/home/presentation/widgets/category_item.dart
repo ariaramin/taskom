@@ -33,7 +33,7 @@ class CategoryItem extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: -34,
+            top: -44,
             left: 0,
             right: 0,
             child: SvgPicture.network(

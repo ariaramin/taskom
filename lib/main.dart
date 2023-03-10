@@ -8,18 +8,19 @@ import 'package:taskom/di/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await initGetIt();
-  runApp(const Application());
+  runApp(Application());
 }
 
 class Application extends StatelessWidget {
-  const Application({super.key});
+  final ThemeProvider _themeProvider = locator.get();
+
+  Application({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
+      create: (context) => _themeProvider,
       child: Consumer<ThemeProvider>(
         builder: (context, value, child) {
           return MaterialApp(

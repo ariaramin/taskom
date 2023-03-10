@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskom/config/components/continuous_rectangle.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
@@ -11,19 +12,10 @@ class WelcomeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 54,
-          height: 54,
-          decoration: ShapeDecoration(
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(48),
-            ),
-            color: AppColors.secondaryColor,
-            image: const DecorationImage(
-              image: AssetImage("assets/images/avatar.png"),
-              alignment: Alignment.center,
-            ),
-          ),
+        ContinuousRectangle(
+          size: 54,
+          backgroundColor: AppColors.secondaryColor,
+          widget: Image.asset("assets/images/avatar.png"),
         ),
         const SizedBox(
           width: 12,

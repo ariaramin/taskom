@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
+import 'package:taskom/config/components/continuous_rectangle.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class CalendarAndProgressBar extends StatefulWidget {
@@ -40,20 +41,11 @@ class _CalendarAndProgressBarState extends State<CalendarAndProgressBar> {
         const SizedBox(
           width: 28,
         ),
-        Container(
-          height: 56,
-          width: 56,
-          decoration: ShapeDecoration(
-            shape: ContinuousRectangleBorder(
-              borderRadius: BorderRadius.circular(48),
-            ),
-            color: AppColors.primaryColor,
-          ),
-          child: Center(
-            child: SvgPicture.asset(
-              "assets/icons/Calendar.svg",
-              color: Colors.white,
-            ),
+        ContinuousRectangle(
+          size: 58,
+          widget: SvgPicture.asset(
+            "assets/icons/Calendar.svg",
+            color: Colors.white,
           ),
         ),
       ],
