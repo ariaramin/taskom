@@ -27,6 +27,11 @@ class SettingsItem {
         isToggleWidget: false,
       ),
       SettingsItem(
+        iconUrl: "assets/icons/Virus.svg",
+        title: "گزارش باگ",
+        isToggleWidget: false,
+      ),
+      SettingsItem(
         iconUrl: "assets/icons/Call.svg",
         title: "تماس با ما",
         isToggleWidget: false,

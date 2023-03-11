@@ -23,15 +23,15 @@ class SettingsTile extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
       ),
       child: Row(
         children: [
           ContinuousRectangle(
-            size: 48,
+            size: 46,
             backgroundColor: color,
             widget: SizedBox(
-              width: 24,
+              width: 20,
               child: icon,
             ),
           ),
@@ -41,7 +41,6 @@ class SettingsTile extends StatelessWidget {
           Text(
             title,
             style: const TextStyle(
-              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),

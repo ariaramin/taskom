@@ -45,7 +45,7 @@ class _DatePickerState extends State<DatePicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 118,
+      height: 120,
       child: ValueListenableBuilder(
         valueListenable: _selectedDateValueNotifier,
         builder: (context, selectedDate, child) {

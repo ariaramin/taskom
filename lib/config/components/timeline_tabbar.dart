@@ -37,6 +37,7 @@ class TimeLineTabBar extends StatelessWidget {
             },
           ),
           isScrollable: true,
+          physics: const NeverScrollableScrollPhysics(),
           unselectedLabelColor: AppColors.greyColor,
           labelColor: Theme.of(context).colorScheme.onBackground,
           labelStyle: const TextStyle(
@@ -45,7 +46,7 @@ class TimeLineTabBar extends StatelessWidget {
           ),
           padding: const EdgeInsets.only(top: 6),
           labelPadding: const EdgeInsets.symmetric(horizontal: 12),
-          tabs: [
+          tabs: const [
             Tab(text: 'همه'),
             Tab(text: '۱۰ - ۸:۳۰'),
             Tab(text: '۱۱:۳۰ - ۱۰'),

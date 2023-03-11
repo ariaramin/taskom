@@ -24,10 +24,7 @@ class ContinuousRectangle extends StatelessWidget {
         ),
         color: backgroundColor ?? AppColors.primaryColor,
       ),
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Center(child: widget),
-      ),
+      child: Center(child: widget),
     );
   }
 }

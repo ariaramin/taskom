@@ -27,7 +27,7 @@ class DatePickerItem extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
-          width: 72,
+          width: 74,
           decoration: ShapeDecoration(
             shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(48),
