@@ -3,6 +3,7 @@ class Constants {
   static const String TASKS_RECORDS_URL = "collections/tasks/records";
   static const String CATEGORIES_RECORDS_URL = "collections/categories/records";
   static const String GALLERY_RECORDS_URL = "collections/gallery/records";
+  static const String NO_TASK_MESSAGE = "تسکی در این بازه زمانی وجود ندارد";
   static const String NONE_TEXTUAL_ERROR_MESSAGE = "خطا محتوای متنی ندارد";
   static const String CONNECTION_ERROR_MESSAGE = "اتصال به شبکه ناموفق بود";
   static const String TASK_ADDED_MESSAGE = "تسک مورد نظر با موفقیت اضافه شد";

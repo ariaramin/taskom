@@ -34,13 +34,13 @@ class TaskListBody extends StatelessWidget {
               ),
             ),
           ),
-          const SliverPadding(
-            padding: EdgeInsets.only(bottom: 8),
-            sliver: SliverToBoxAdapter(
-              child: TimeLineTabBar(),
-            ),
-          ),
-          const TaskList(),
+          // const SliverPadding(
+          //   padding: EdgeInsets.only(bottom: 8),
+          //   sliver: SliverToBoxAdapter(
+          //     child: TimeLineTabBar(),
+          //   ),
+          // ),
+          // const TaskList(),
         ],
       ),
     );

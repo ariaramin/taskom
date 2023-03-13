@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:taskom/config/components/app_chip.dart';
+import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
 class TaskItem extends StatefulWidget {
-  // final TaskModel task;
+  final TaskModel task;
 
   const TaskItem({
     super.key,
-    // required this.task,
+    required this.task,
   });
 
   @override
@@ -20,11 +21,11 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   bool _isChecked = false;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _isChecked = widget.task.isDone ?? false;
-  // }
+  @override
+  void initState() {
+    super.initState();
+    _isChecked = widget.task.isDone ?? false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,9 @@ class _TaskItemState extends State<TaskItem> {
   Widget _getContent() {
     return Row(
       children: [
-        // Image.asset(widget.task.taskType.image),
-        Image.asset("assets/images/focus.png"),
+        CachedImage(
+          imageUrl: widget.task.thumbnail!,
+        ),
         const SizedBox(
           width: 8,
         ),
@@ -69,9 +71,8 @@ class _TaskItemState extends State<TaskItem> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    // widget.task.title,
-                    "تمرین زبان انگلیسی",
-                    style: TextStyle(
+                    widget.task.title!,
+                    style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
@@ -89,8 +90,7 @@ class _TaskItemState extends State<TaskItem> {
                 ],
               ),
               Text(
-                // widget.task.subTitle,
-                "تمرین کتاب آموزشگاه",
+                widget.task.note!,
                 style: TextStyle(
                     fontSize: 12,
                     color: Theme.of(context)
@@ -112,7 +112,6 @@ class _TaskItemState extends State<TaskItem> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        // AppChip(title:  "${convertToPersianNumber(widget.task.time.hour)}:${_getMinute(widget.task.time)}"),
         AppChip(
           title: "ویرایش",
           isLight: true,
@@ -126,7 +125,8 @@ class _TaskItemState extends State<TaskItem> {
           width: 12,
         ),
         AppChip(
-          title: "۱۰:۳۰",
+          title:
+              "${widget.task.dateTime!.hour}:${_getMinute(widget.task.dateTime!)}",
           widget: SvgPicture.asset(
             "assets/icons/Time.svg",
             width: 16,
@@ -137,9 +137,7 @@ class _TaskItemState extends State<TaskItem> {
     );
   }
 
-  // String _getMinute(TimeOfDay time) {
-  //   return time.minute < 10
-  //       ? '۰${convertToPersianNumber(time.minute)}'
-  //       : convertToPersianNumber(time.minute);
-  // }
+  String _getMinute(DateTime time) {
+    return time.minute < 10 ? '۰${time.minute}' : "${time.minute}";
+  }
 }

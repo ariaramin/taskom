@@ -27,11 +27,12 @@ class TaskModel {
       userId: jsonObject['user'],
       thumbnail:
           '${Constants.BASE_URL}files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
+      // thumbnail: jsonObject['thumbnail'],
       title: jsonObject['title'],
       note: jsonObject['note'],
       categoryId: jsonObject['category'],
       isDone: jsonObject['isDone'],
-      dateTime: jsonObject['dateTime'],
+      dateTime: DateTime.tryParse(jsonObject['date']),
     );
   }
 

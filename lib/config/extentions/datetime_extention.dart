@@ -1,6 +1,10 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
 extension DateHelperExtension on DateTime {
+  DateTime removeUtc() {
+    return DateTime(year, month, day, hour, minute, second);
+  }
+
   int dateDifference(DateTime secondDate) {
     return DateTime(year, month, day)
         .difference(
@@ -18,8 +22,12 @@ extension DateHelperExtension on DateTime {
   }
 
   bool isInRange(DateTime startDate, DateTime endDate) {
-    return (isAfter(startDate) || isSameDate(startDate)) &&
-        (isBefore(endDate) || isSameDate(endDate));
+    return (startDate.isBefore(this) | startDate.isAtSameMomentAs(this)) &&
+        (endDate.isAfter(this) | endDate.isAtSameMomentAs(this));
+  }
+
+  String getGregorianDate() {
+    return "$year-${month.toString().padLeft(2, '0')}-${day.toString().padLeft(2, '0')}";
   }
 
   String getJalaliDay() {

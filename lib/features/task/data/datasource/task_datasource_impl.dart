@@ -14,6 +14,12 @@ class TaskDatasourceImpl extends TaskDatasource {
     try {
       var response = await _dio.get(
         Constants.TASKS_RECORDS_URL,
+        options: Options(
+          headers: {
+            "Authorization":
+                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE2Nzk4NTM0NDAsImlkIjoibGVjZGFmMjY0NzVxc3N5IiwidHlwZSI6ImF1dGhSZWNvcmQifQ.wAAMsmtdNgNuL-RooPGymLTV9GUFTa0eXa_7kyh7wVQ"
+          },
+        ),
         queryParameters: {
           "filter": filter?.filterSequence,
         },
