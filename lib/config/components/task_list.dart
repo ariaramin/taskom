@@ -16,7 +16,7 @@ class TaskList extends StatelessWidget {
     return taskList.isEmpty
         ? const SliverToBoxAdapter(
             child: Center(
-              child: Text(Constants.NO_TASK_MESSAGE),
+              child: Text(Constants.NO_TASK_AT_THIS_TIME_MESSAGE),
             ),
           )
         : SliverList(

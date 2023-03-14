@@ -1,6 +1,10 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
 extension DateHelperExtension on DateTime {
+  DateTime removeTime() {
+    return DateTime(year, month, day);
+  }
+
   DateTime removeUtc() {
     return DateTime(year, month, day, hour, minute, second);
   }

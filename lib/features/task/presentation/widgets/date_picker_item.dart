@@ -5,7 +5,7 @@ import 'package:taskom/config/extentions/datetime_extention.dart';
 class DatePickerItem extends StatelessWidget {
   final DateTime date;
   final bool isActive;
-  final bool isMarked;
+  final bool? isMarked;
   final VoidCallback onPressed;
 
   const DatePickerItem({
@@ -64,7 +64,7 @@ class DatePickerItem extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                isMarked
+                isMarked!
                     ? SizedBox(
                         width: 6,
                         height: 6,

@@ -4,6 +4,7 @@ import 'package:taskom/config/components/app_chip.dart';
 import 'package:taskom/config/components/custom_appbar.dart';
 import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/components/timeline_tabbar.dart';
+import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
 import 'package:taskom/features/home/presentation/bloc/home_event.dart';
@@ -33,100 +34,110 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   void initState() {
-    _getHomeData("created >= '${DateTime.now().getGregorianDate()}'");
+    _getHomeData("date ~ '${DateTime.now().getGregorianDate()}'");
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        return CustomScrollView(
-          slivers: [
-            if (state is HomeLoadingState) ...{
-              const SliverFillRemaining(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-            },
-            if (state is HomeResponseState) ...{
-              const SliverToBoxAdapter(
-                child: CustomAppBar(
-                  rightSection: WelcomeSection(),
-                  leftSection: AppChip(
-                    title: "۲۰ تسک فعال",
-                    isLight: true,
+    return RefreshIndicator(
+      onRefresh: () async {
+        _getHomeData("date ~ '${DateTime.now().getGregorianDate()}'");
+      },
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return CustomScrollView(
+            slivers: [
+              if (state is HomeLoadingState) ...{
+                const SliverFillRemaining(
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
                 ),
-              ),
-              const SliverToBoxAdapter(
-                child: SearchContainer(),
-              ),
-              const SliverToBoxAdapter(
-                child: SectionTitle(
-                  title: "دسته‌بندی ها",
-                ),
-              ),
-
-              // category
-              state.allCategories.fold((failure) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text(failure.message)),
-                );
-              }, (response) {
-                return SliverPadding(
-                  padding: const EdgeInsets.only(top: 22),
-                  sliver: SliverToBoxAdapter(
-                    child: CategoryList(
-                      categoryList: response,
+              },
+              if (state is HomeResponseState) ...{
+                const SliverToBoxAdapter(
+                  child: CustomAppBar(
+                    rightSection: WelcomeSection(),
+                    leftSection: AppChip(
+                      title: "۲۰ تسک فعال",
+                      isLight: true,
                     ),
                   ),
-                );
-              }),
-              const SliverToBoxAdapter(
-                child: SectionTitle(
-                  title: "تسک های امروز",
                 ),
-              ),
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  top: 16,
-                  bottom: 8,
+                const SliverToBoxAdapter(
+                  child: SearchContainer(),
                 ),
-                sliver: SliverToBoxAdapter(
-                  child: TimeLineTabBar(
-                    onSelectedTimeChange: (times) {
-                      _taskList.value = _getFilterTasks(times);
-                    },
+                const SliverToBoxAdapter(
+                  child: SectionTitle(
+                    title: "دسته‌بندی ها",
                   ),
                 ),
-              ),
 
-              state.allTasks.fold((failure) {
-                return SliverToBoxAdapter(
-                  child: Center(child: Text(failure.message)),
-                );
-              }, (response) {
-                _remoteData = response;
-                _taskList.value = response;
-                return ValueListenableBuilder(
-                  valueListenable: _taskList,
-                  builder: (context, value, child) {
-                    return TaskList(
-                      taskList: value,
-                    );
-                  },
-                );
-              }),
+                // category
+                state.allCategories.fold((failure) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(failure.message)),
+                  );
+                }, (response) {
+                  return SliverPadding(
+                    padding: const EdgeInsets.only(top: 22),
+                    sliver: SliverToBoxAdapter(
+                      child: CategoryList(
+                        categoryList: response,
+                      ),
+                    ),
+                  );
+                }),
+                const SliverToBoxAdapter(
+                  child: SectionTitle(
+                    title: "تسک های امروز",
+                  ),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    top: 16,
+                    bottom: 8,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: TimeLineTabBar(
+                      onSelectedTimeChange: (times) {
+                        _taskList.value = _getFilterTasks(times);
+                      },
+                    ),
+                  ),
+                ),
 
-              const SliverPadding(
-                padding: EdgeInsets.only(bottom: 76),
-              ),
-            }
-          ],
-        );
-      },
+                state.allTasks.fold((failure) {
+                  return SliverToBoxAdapter(
+                    child: Center(child: Text(failure.message)),
+                  );
+                }, (response) {
+                  _remoteData = response;
+                  _taskList.value = response;
+                  return ValueListenableBuilder(
+                    valueListenable: _taskList,
+                    builder: (context, value, child) {
+                      return response.isEmpty
+                          ? const SliverToBoxAdapter(
+                              child: Center(
+                                child: Text(Constants.NO_TASK_MESSAGE),
+                              ),
+                            )
+                          : TaskList(
+                              taskList: value,
+                            );
+                    },
+                  );
+                }),
+                const SliverPadding(
+                  padding: EdgeInsets.only(bottom: 76),
+                ),
+              }
+            ],
+          );
+        },
+      ),
     );
   }
 

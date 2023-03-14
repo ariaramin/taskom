@@ -7,6 +7,7 @@ class DatePicker extends StatefulWidget {
   final DateTime startDate;
   final DateTime endDate;
   final DateTime? initialSelectedDate;
+  final List<DateTime>? markedDates;
   final Function(DateTime? date) onSelectedDateChange;
 
   const DatePicker({
@@ -14,6 +15,7 @@ class DatePicker extends StatefulWidget {
     required this.startDate,
     required this.endDate,
     this.initialSelectedDate,
+    this.markedDates,
     required this.onSelectedDateChange,
   });
 
@@ -55,6 +57,8 @@ class _DatePickerState extends State<DatePicker> {
             itemCount: widget.endDate.dateDifference(widget.startDate) + 1,
             itemBuilder: (context, index) {
               DateTime itemDate = widget.startDate.add(Duration(days: index));
+              bool? isMarked =
+                  widget.markedDates?.contains(itemDate.removeTime());
               return AutoScrollTag(
                 key: ValueKey(index),
                 controller: _scrollController,
@@ -62,6 +66,7 @@ class _DatePickerState extends State<DatePicker> {
                 child: DatePickerItem(
                   date: itemDate,
                   isActive: _isDatePickerItemSelected(itemDate, selectedDate),
+                  isMarked: isMarked,
                   onPressed: !_isDatePickerItemSelected(itemDate, selectedDate)
                       ? () {
                           _setSelectedDate(itemDate);
