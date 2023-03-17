@@ -5,7 +5,6 @@ import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/components/timeline_tabbar.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
-import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/features/task/data/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
@@ -25,16 +24,13 @@ class TaskListBody extends StatefulWidget {
 }
 
 class _TaskListBodyState extends State<TaskListBody> {
-  final ValueNotifier<List<TaskModel>> _taskList =
-      ValueNotifier<List<TaskModel>>([]);
-  final ValueNotifier<List<DateTime>> _taskDateList =
-      ValueNotifier<List<DateTime>>([]);
-  List<TaskModel> _remoteData = [];
+  // final ValueNotifier<List<DateTime>> _taskDateList = ValueNotifier([]);
+  late DateTime _selectedDate;
+  List<DateTime>? _selectedTimeRange;
 
   @override
   void initState() {
-    // _getData("date ~ '${DateTime.now().getGregorianDate()}'");
-    _getData("");
+    _filterTasks(DateTime.now(), null);
     super.initState();
   }
 
@@ -42,113 +38,95 @@ class _TaskListBodyState extends State<TaskListBody> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        _getData("");
+        _filterTasks(DateTime.now(), null);
       },
-      child: BlocBuilder<TaskBloc, TaskState>(
-        builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              if (state is TaskLoadingState) ...{
-                const SliverFillRemaining(
+      child: CustomScrollView(
+        slivers: [
+          const SliverToBoxAdapter(
+            child: CustomAppBar(
+              rightSection: DateSection(),
+              leftSection: CalendarAndProgressBar(taskList: []),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 18),
+            sliver: SliverToBoxAdapter(
+              child: DatePicker(
+                startDate: DateTime.now(),
+                endDate: DateTime.now().add(const Duration(days: 30)),
+                initialSelectedDate: DateTime.now(),
+                onSelectedDateChange: (date) {
+                  setState(() {
+                    _selectedDate = date!;
+                  });
+                  _filterTasks(date!, _selectedTimeRange);
+                },
+              ),
+            ),
+          ),
+          SliverPadding(
+            padding: const EdgeInsets.only(bottom: 8),
+            sliver: SliverToBoxAdapter(
+              child: TimeLineTabBar(
+                onSelectedTimeChange: (times) {
+                  setState(() {
+                    _selectedTimeRange = times;
+                  });
+                  _filterTasks(_selectedDate, times);
+                },
+              ),
+            ),
+          ),
+          BlocBuilder<TaskBloc, TaskState>(
+            builder: (context, state) {
+              if (state is TaskLoadingState) {
+                return const SliverToBoxAdapter(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
-                ),
-              },
-              if (state is TaskListResponse) ...{
-                const SliverToBoxAdapter(
-                  child: CustomAppBar(
-                    rightSection: DateSection(),
-                    leftSection: CalendarAndProgressBar(),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(top: 18),
-                  sliver: SliverToBoxAdapter(
-                    child: ValueListenableBuilder(
-                      valueListenable: _taskDateList,
-                      builder: (context, value, child) {
-                        return DatePicker(
-                          startDate: DateTime.now(),
-                          endDate: DateTime.now().add(const Duration(days: 30)),
-                          initialSelectedDate: DateTime.now(),
-                          markedDates: value,
-                          onSelectedDateChange: (date) {
-                            _taskList.value = _getFilterTasksByDate(date);
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  sliver: SliverToBoxAdapter(
-                    child: TimeLineTabBar(
-                      onSelectedTimeChange: (times) {
-                        _taskList.value = _getFilterTasksByTime(times);
-                      },
-                    ),
-                  ),
-                ),
-                state.taskList.fold((failure) {
+                );
+              }
+              if (state is TaskListResponse) {
+                return state.taskList.fold((failure) {
                   return SliverToBoxAdapter(
                     child: Center(child: Text(failure.message)),
                   );
                 }, (response) {
-                  _setData(response);
-                  return ValueListenableBuilder(
-                    valueListenable: _taskList,
-                    builder: (context, value, child) {
-                      return response.isEmpty
-                          ? const SliverToBoxAdapter(
-                              child: Center(
-                                child: Text(Constants.NO_TASK_MESSAGE),
-                              ),
-                            )
-                          : TaskList(taskList: value);
-                    },
-                  );
-                }),
-                const SliverPadding(
-                  padding: EdgeInsets.only(bottom: 76),
-                ),
-              },
-            ],
-          );
-        },
+                  return response.isEmpty
+                      ? const SliverToBoxAdapter(
+                          child: Center(
+                            child: Text(Constants.NO_TASK_MESSAGE),
+                          ),
+                        )
+                      : TaskList(taskList: response);
+                });
+              }
+              return const SliverToBoxAdapter(
+                child: SizedBox(),
+              );
+            },
+          ),
+          const SliverPadding(
+            padding: EdgeInsets.only(bottom: 76),
+          ),
+        ],
       ),
     );
   }
 
-  _getFilterTasksByTime(List<DateTime>? times) {
-    _taskList.value = _getFilterTasksByDate(DateTime.now());
-    return times != null
-        ? _taskList.value
-            .where((element) =>
-                element.dateTime!.removeUtc().isInRange(times[0], times[1]))
-            .toList()
-        : _taskList.value;
-  }
+  // _setTasksDateList(List<TaskModel> response) {
+  //   _taskDateList.value =
+  //       response.map((element) => element.dateTime!.removeTime()).toList();
+  // }
 
-  _getFilterTasksByDate(DateTime? date) {
-    _taskList.value = _remoteData;
-    return date != null
-        ? _taskList.value
-            .where((element) => element.dateTime!.removeUtc().isSameDate(date))
-            .toList()
-        : _taskList.value;
-  }
-
-  _setTasksDateList() {
-    _taskDateList.value =
-        _remoteData.map((element) => element.dateTime!.removeTime()).toList();
-  }
-
-  _setData(List<TaskModel> response) {
-    _remoteData = response;
-    _setTasksDateList();
-    _taskList.value = _getFilterTasksByDate(DateTime.now());
+  _filterTasks(DateTime date, List<DateTime>? times) {
+    var filter = "date ~ '${date.getGregorianDate()}'";
+    if (times != null) {
+      var startDateTime = times[0].changeDate(date);
+      var endDateTime = times[1].changeDate(date);
+      filter += " && date >= '$startDateTime' && date <= '$endDateTime'";
+    }
+    _getData(filter);
   }
 
   _getData(String filter) {

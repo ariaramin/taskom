@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:taskom/config/components/app_chip.dart';
 import 'package:taskom/config/components/custom_appbar.dart';
@@ -14,9 +13,11 @@ import 'package:taskom/features/home/presentation/widgets/search_container.dart'
 import 'package:taskom/features/home/presentation/widgets/section_title.dart';
 import 'package:taskom/features/home/presentation/widgets/welcome_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/features/task/data/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
+import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
+import 'package:taskom/features/task/presentation/bloc/task_event.dart';
+import 'package:taskom/features/task/presentation/bloc/task_state.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({
@@ -28,13 +29,10 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  final ValueNotifier<List<TaskModel>> _taskList =
-      ValueNotifier<List<TaskModel>>([]);
-  List<TaskModel> _remoteData = [];
-
   @override
   void initState() {
-    _getHomeData("date ~ '${DateTime.now().getGregorianDate()}'");
+    _getHomeData();
+    _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
     super.initState();
   }
 
@@ -42,20 +40,19 @@ class _HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        _getHomeData("date ~ '${DateTime.now().getGregorianDate()}'");
+        _getHomeData();
+        _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
-          return CustomScrollView(
-            slivers: [
-              if (state is HomeLoadingState) ...{
-                const SliverFillRemaining(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-              },
-              if (state is HomeResponseState) ...{
+          if (state is HomeLoadingState) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is HomeResponseState) {
+            return CustomScrollView(
+              slivers: [
                 const SliverToBoxAdapter(
                   child: CustomAppBar(
                     rightSection: WelcomeSection(),
@@ -65,9 +62,7 @@ class _HomeBodyState extends State<HomeBody> {
                     ),
                   ),
                 ),
-                const SliverToBoxAdapter(
-                  child: SearchContainer(),
-                ),
+                const SearchContainer(),
                 const SliverToBoxAdapter(
                   child: SectionTitle(
                     title: "دسته‌بندی ها",
@@ -101,59 +96,65 @@ class _HomeBodyState extends State<HomeBody> {
                   ),
                   sliver: SliverToBoxAdapter(
                     child: TimeLineTabBar(
-                      onSelectedTimeChange: (times) {
-                        _taskList.value = _getFilterTasks(times);
-                      },
+                      onSelectedTimeChange: (times) =>
+                          _filterTasksByTime(times),
                     ),
                   ),
                 ),
-
-                state.allTasks.fold((failure) {
-                  return SliverToBoxAdapter(
-                    child: Center(child: Text(failure.message)),
-                  );
-                }, (response) {
-                  _remoteData = response;
-                  _taskList.value = response;
-                  return ValueListenableBuilder(
-                    valueListenable: _taskList,
-                    builder: (context, value, child) {
-                      return response.isEmpty
-                          ? const SliverToBoxAdapter(
-                              child: Center(
-                                child: Text(Constants.NO_TASK_MESSAGE),
-                              ),
-                            )
-                          : TaskList(
-                              taskList: value,
-                            );
-                    },
-                  );
-                }),
+                _getTaskList(),
                 const SliverPadding(
                   padding: EdgeInsets.only(bottom: 76),
                 ),
-              }
-            ],
-          );
+              ],
+            );
+          }
+          return const SizedBox();
         },
       ),
     );
   }
 
-  _getFilterTasks(List<DateTime>? times) {
-    _taskList.value = _remoteData;
-    return times != null
-        ? _taskList.value
-            .where((element) =>
-                element.dateTime!.removeUtc().isInRange(times[0], times[1]))
-            .toList()
-        : _taskList.value;
+  Widget _getTaskList() {
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, state) {
+        if (state is TaskLoadingState) {
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state is TaskListResponse) {
+          return state.taskList.fold((failure) {
+            return SliverToBoxAdapter(
+              child: Center(child: Text(failure.message)),
+            );
+          }, (response) {
+            return response.isEmpty
+                ? const SliverToBoxAdapter(
+                    child: Center(
+                      child: Text(Constants.NO_TASK_MESSAGE),
+                    ),
+                  )
+                : TaskList(taskList: response);
+          });
+        }
+        return const SliverToBoxAdapter(
+          child: SizedBox(),
+        );
+      },
+    );
   }
 
-  _getHomeData(String filter) {
-    BlocProvider.of<HomeBloc>(context).add(
-      HomeDataRequestEvent(
+  _filterTasksByTime(List<DateTime>? times) {
+    times != null
+        ? _getTaskData("date >= '${times[0]}' && date <= '${times[1]}'")
+        : _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
+  }
+
+  _getTaskData(String filter) {
+    BlocProvider.of<TaskBloc>(context).add(
+      TaskListRequestEvent(
         taskListParams: TaskListParams(
           filter: Filter(
             filterSequence: filter,
@@ -161,5 +162,9 @@ class _HomeBodyState extends State<HomeBody> {
         ),
       ),
     );
+  }
+
+  _getHomeData() {
+    BlocProvider.of<HomeBloc>(context).add(HomeDataRequestEvent());
   }
 }

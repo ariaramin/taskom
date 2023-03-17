@@ -36,13 +36,13 @@ class TaskModel {
     );
   }
 
-  toJson() => {
-        userId: userId,
-        thumbnail: thumbnail,
-        title: title,
-        note: note,
-        categoryId: categoryId,
-        isDone: isDone,
-        dateTime: dateTime,
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'thumbnail': thumbnail,
+        'title': title,
+        'note': note,
+        'categoryId': categoryId,
+        'isDone': isDone,
+        'dateTime': dateTime?.toIso8601String(),
       };
 }

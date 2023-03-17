@@ -57,8 +57,9 @@ class _DatePickerState extends State<DatePicker> {
             itemCount: widget.endDate.dateDifference(widget.startDate) + 1,
             itemBuilder: (context, index) {
               DateTime itemDate = widget.startDate.add(Duration(days: index));
-              bool? isMarked =
-                  widget.markedDates?.contains(itemDate.removeTime());
+              bool isMarked = widget.markedDates != null
+                  ? widget.markedDates!.contains(itemDate.removeTime())
+                  : false;
               return AutoScrollTag(
                 key: ValueKey(index),
                 controller: _scrollController,

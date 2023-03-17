@@ -3,10 +3,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:taskom/config/components/continuous_rectangle.dart';
 import 'package:taskom/config/theme/app_colors.dart';
+import 'package:taskom/features/task/data/models/task.dart';
 
 class CalendarAndProgressBar extends StatefulWidget {
+  final List<TaskModel> taskList;
+
   const CalendarAndProgressBar({
     super.key,
+    required this.taskList,
   });
 
   @override
@@ -14,7 +18,13 @@ class CalendarAndProgressBar extends StatefulWidget {
 }
 
 class _CalendarAndProgressBarState extends State<CalendarAndProgressBar> {
-  final ValueNotifier<double> valueNotifier = ValueNotifier(30);
+  final ValueNotifier<double> valueNotifier = ValueNotifier(0);
+
+  @override
+  void didUpdateWidget(covariant CalendarAndProgressBar oldWidget) {
+    _setProgressBarValue();
+    super.didUpdateWidget(oldWidget);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,5 +60,13 @@ class _CalendarAndProgressBarState extends State<CalendarAndProgressBar> {
         ),
       ],
     );
+  }
+
+  _setProgressBarValue() {
+    var totalCount = widget.taskList.length;
+    var items =
+        widget.taskList.where((element) => element.isDone == true).toList();
+    valueNotifier.value =
+        totalCount != 0 ? (items.length / totalCount) * 100 : 0;
   }
 }

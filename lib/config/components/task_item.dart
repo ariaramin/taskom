@@ -83,7 +83,7 @@ class _TaskItemState extends State<TaskItem> {
                     colorConfig: MSHColorConfig.fromCheckedUncheckedDisabled(
                       checkedColor: AppColors.successColor,
                     ),
-                    style: MSHCheckboxStyle.stroke,
+                    style: MSHCheckboxStyle.fillScaleCheck,
                     onChanged: (selected) {},
                   ),
                   // _getTitle(),

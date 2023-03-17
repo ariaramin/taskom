@@ -1,6 +1,10 @@
 import 'package:shamsi_date/shamsi_date.dart';
 
 extension DateHelperExtension on DateTime {
+  DateTime changeDate(DateTime other) {
+    return DateTime(other.year, other.month, other.day, hour, minute, second);
+  }
+
   DateTime removeTime() {
     return DateTime(year, month, day);
   }

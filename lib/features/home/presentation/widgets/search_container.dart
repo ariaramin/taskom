@@ -9,42 +9,44 @@ class SearchContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 14,
-        right: 14,
-        top: 14,
-        bottom: 28,
-      ),
-      child: Container(
-        height: 46,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-          borderRadius: BorderRadius.circular(16),
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 14,
+          right: 14,
+          top: 14,
+          bottom: 28,
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              SizedBox(
-                width: 24,
-                child: SvgPicture.asset(
-                  "assets/icons/Search.svg",
-                  color: AppColors.greyColor,
+        child: Container(
+          height: 46,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              children: [
+                SizedBox(
+                  width: 24,
+                  child: SvgPicture.asset(
+                    "assets/icons/Search.svg",
+                    color: AppColors.greyColor,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 12,
-              ),
-              const Text(
-                "جستجوی تسک مورد نظر...",
-                style: TextStyle(
-                  fontSize: 14,
-                  color: AppColors.greyColor,
+                const SizedBox(
+                  width: 12,
                 ),
-                textAlign: TextAlign.start,
-              ),
-            ],
+                const Text(
+                  "جستجوی تسک مورد نظر...",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: AppColors.greyColor,
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+              ],
+            ),
           ),
         ),
       ),

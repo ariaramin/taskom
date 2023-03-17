@@ -2,14 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class TimeLineTabBar extends StatelessWidget {
-  // final DateTime startTime;
-  // final DateTime endTime;
   final Function(List<DateTime>? times) onSelectedTimeChange;
 
   const TimeLineTabBar({
     Key? key,
-    // required this.endTime,
-    // required this.startTime,
     required this.onSelectedTimeChange,
   }) : super(key: key);
 
@@ -31,11 +27,6 @@ class TimeLineTabBar extends StatelessWidget {
             ),
           ),
           TabBar(
-            onTap: (index) {
-              index == 0
-                  ? onSelectedTimeChange(null)
-                  : onSelectedTimeChange(_getPairedTimeList()[index - 1]);
-            },
             indicator: CircleTabIndicator(
               color: AppColors.primaryColor,
               radius: 6,
@@ -59,6 +50,11 @@ class TimeLineTabBar extends StatelessWidget {
             padding: const EdgeInsets.only(top: 6),
             labelPadding: const EdgeInsets.symmetric(horizontal: 12),
             tabs: _getTimeLineItem(),
+            onTap: (index) {
+              index == 0
+                  ? onSelectedTimeChange(null)
+                  : onSelectedTimeChange(_getPairedTimeList()[index - 1]);
+            },
           ),
         ],
       ),
