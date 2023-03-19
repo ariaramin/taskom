@@ -3,6 +3,7 @@ class Constants {
   static const String TASKS_RECORDS_URL = "collections/tasks/records";
   static const String CATEGORIES_RECORDS_URL = "collections/categories/records";
   static const String GALLERY_RECORDS_URL = "collections/gallery/records";
+  static const String AVATARS_RECORDS_URL = "collections/avatars/records";
   static const String NO_TASK_MESSAGE = "تسکی برای امروز وجود ندارد";
   static const String NO_TASK_AT_THIS_TIME_MESSAGE =
       "تسکی در این بازه زمانی وجود ندارد";

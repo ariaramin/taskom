@@ -4,17 +4,19 @@ import 'package:taskom/config/theme/app_colors.dart';
 class FormBottomText extends StatelessWidget {
   final String firstText;
   final String secondText;
+  final Function()? onTap;
 
   const FormBottomText({
     super.key,
     required this.firstText,
     required this.secondText,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

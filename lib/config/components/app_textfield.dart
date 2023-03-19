@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class AppTextField extends StatefulWidget {
@@ -48,7 +49,7 @@ class _AppTextFieldState extends State<AppTextField> {
         focusedBorder: _fieldFocusedBorder(),
         labelText: widget.labelText,
         labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.onPrimary.withOpacity(.3),
+          color: Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
         ),
         floatingLabelStyle: const TextStyle(
           color: AppColors.primaryColor,
@@ -65,7 +66,7 @@ class _AppTextFieldState extends State<AppTextField> {
             width: 22,
             color: focused
                 ? AppColors.primaryColor
-                : Theme.of(context).colorScheme.onPrimary.withOpacity(.3),
+                : Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
           ),
         ),
         errorText: widget.errorText,
@@ -75,20 +76,20 @@ class _AppTextFieldState extends State<AppTextField> {
                   padding: const EdgeInsets.only(left: 14),
                   child: passwordVisible
                       ? SvgPicture.asset(
-                          "assets/icons/Show.svg",
+                          AssetsManager.show,
                           width: 18,
                           color: Theme.of(context)
                               .colorScheme
                               .onPrimary
-                              .withOpacity(.3),
+                              .withOpacity(.5),
                         )
                       : SvgPicture.asset(
-                          "assets/icons/Hidden.svg",
+                          AssetsManager.hidden,
                           width: 18,
                           color: Theme.of(context)
                               .colorScheme
                               .onPrimary
-                              .withOpacity(.3),
+                              .withOpacity(.5),
                         ),
                 ),
                 onTap: () {
@@ -127,7 +128,7 @@ class _AppTextFieldState extends State<AppTextField> {
       borderRadius: BorderRadius.circular(16),
       borderSide: BorderSide(
         width: 2,
-        color: Theme.of(context).colorScheme.onPrimary.withOpacity(.3),
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
       ),
     );
   }

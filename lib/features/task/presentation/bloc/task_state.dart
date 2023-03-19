@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:taskom/features/task/data/models/task.dart';
-import 'package:taskom/features/task/data/util/failure.dart';
+import 'package:taskom/config/util/failure.dart';
 
 abstract class TaskState extends Equatable {}
 
@@ -17,8 +17,12 @@ class TaskLoadingState extends TaskState {
 
 class TaskListResponse extends TaskState {
   final Either<Failure, List<TaskModel>> taskList;
+  final List<DateTime>? dateList;
 
-  TaskListResponse({required this.taskList});
+  TaskListResponse({
+    required this.taskList,
+    this.dateList,
+  });
 
   @override
   List<Object?> get props => [];

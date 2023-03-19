@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class SettingsItem {
@@ -14,35 +15,35 @@ class SettingsItem {
     this.isToggleWidget,
   });
 
-  static List<SettingsItem> getSettingsItem() {
+  static List<SettingsItem> getSettingsItems() {
     return [
       SettingsItem(
-        iconUrl: "assets/icons/Moon.svg",
+        iconUrl: AssetsManager.moon,
         title: "دارک مود",
         isToggleWidget: true,
       ),
       SettingsItem(
-        iconUrl: "assets/icons/Virus-Checked.svg",
+        iconUrl: AssetsManager.virusChecked,
         title: "حریم خصوصی",
         isToggleWidget: false,
       ),
       SettingsItem(
-        iconUrl: "assets/icons/Virus.svg",
+        iconUrl: AssetsManager.virus,
         title: "گزارش باگ",
         isToggleWidget: false,
       ),
       SettingsItem(
-        iconUrl: "assets/icons/Call.svg",
+        iconUrl: AssetsManager.call,
         title: "تماس با ما",
         isToggleWidget: false,
       ),
       SettingsItem(
-        iconUrl: "assets/icons/Information.svg",
+        iconUrl: AssetsManager.information,
         title: "درباره ما",
         isToggleWidget: false,
       ),
       SettingsItem(
-        iconUrl: "assets/icons/Exit.svg",
+        iconUrl: AssetsManager.exit,
         title: "خروج از حساب کاربری",
         color: AppColors.errorColor,
       ),

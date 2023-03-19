@@ -4,7 +4,7 @@ import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/data/datasource/task_detail_datasource.dart';
 import 'package:taskom/features/task/data/models/gallery.dart';
 import 'package:taskom/features/task/data/models/category.dart';
-import 'package:taskom/features/task/data/util/api_exception.dart';
+import 'package:taskom/config/util/api_exception.dart';
 
 class TaskDetailDatasourceImpl extends TaskDetailDatasource {
   final Dio _dio = locator.get();

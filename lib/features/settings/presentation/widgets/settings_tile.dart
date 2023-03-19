@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskom/config/components/continuous_rectangle.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 
 class SettingsTile extends StatelessWidget {
   final Widget icon;
@@ -49,7 +50,7 @@ class SettingsTile extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: trailingWidget ??
                 SvgPicture.asset(
-                  "assets/icons/LeftArrow.svg",
+                  AssetsManager.leftArrow,
                   width: 10,
                   color: Theme.of(context).colorScheme.onPrimary,
                 ),

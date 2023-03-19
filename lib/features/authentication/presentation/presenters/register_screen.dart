@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
 import 'package:taskom/features/authentication/presentation/widgets/register_body.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
+  final String? avatarId;
+
+  const RegisterScreen({
+    super.key,
+    this.avatarId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: SafeArea(
-        child: RegisterBody(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(
+              create: (context) => ProfileBloc(),
+            ),
+          ],
+          child: RegisterBody(avatarId: avatarId),
+        ),
       ),
     );
   }

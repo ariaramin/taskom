@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskom/config/components/continuous_rectangle.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class AvatarContainer extends StatelessWidget {
@@ -20,7 +21,7 @@ class AvatarContainer extends StatelessWidget {
           ContinuousRectangle(
             size: 68,
             backgroundColor: AppColors.secondaryColor,
-            widget: Image.asset("assets/images/avatar.png"),
+            widget: Image.asset(AssetsManager.avatar),
           ),
           const SizedBox(
             width: 12,
@@ -52,7 +53,7 @@ class AvatarContainer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: SvgPicture.asset(
-              "assets/icons/LeftArrow.svg",
+              AssetsManager.leftArrow,
               width: 10,
               color: Theme.of(context).colorScheme.onPrimary,
             ),

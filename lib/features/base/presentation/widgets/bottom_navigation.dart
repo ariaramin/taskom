@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class BottomNavigation extends StatelessWidget {
@@ -22,18 +23,18 @@ class BottomNavigation extends StatelessWidget {
       items: [
         _bottomNavigationItem(
           label: "خانه",
-          icon: "Home",
-          activeIcon: "HomeBold",
+          icon: AssetsManager.home,
+          activeIcon: AssetsManager.homeBold,
         ),
         _bottomNavigationItem(
           label: "تسک ها",
-          icon: "Calendar",
-          activeIcon: "CalendarBold",
+          icon: AssetsManager.calendar,
+          activeIcon: AssetsManager.calendarBold,
         ),
         _bottomNavigationItem(
           label: "تنظیمات",
-          icon: "Settings",
-          activeIcon: "SettingsBold",
+          icon: AssetsManager.settings,
+          activeIcon: AssetsManager.settingsBold,
         ),
       ],
     );
@@ -48,14 +49,14 @@ class BottomNavigation extends StatelessWidget {
       icon: Padding(
         padding: const EdgeInsets.all(4),
         child: SvgPicture.asset(
-          "assets/icons/$icon.svg",
+          icon,
           color: AppColors.greyColor,
         ),
       ),
       activeIcon: Padding(
         padding: const EdgeInsets.all(4),
         child: SvgPicture.asset(
-          "assets/icons/$activeIcon.svg",
+          activeIcon,
           color: AppColors.primaryColor,
         ),
       ),

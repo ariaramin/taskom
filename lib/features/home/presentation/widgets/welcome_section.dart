@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/components/continuous_rectangle.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
@@ -15,7 +16,7 @@ class WelcomeSection extends StatelessWidget {
         ContinuousRectangle(
           size: 54,
           backgroundColor: AppColors.secondaryColor,
-          widget: Image.asset("assets/images/avatar.png"),
+          widget: Image.asset(AssetsManager.avatar),
         ),
         const SizedBox(
           width: 12,

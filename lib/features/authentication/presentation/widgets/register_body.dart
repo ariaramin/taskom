@@ -1,12 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/app_button.dart';
+import 'package:taskom/config/components/cached_image.dart';
+import 'package:taskom/config/route/app_route_names.dart';
+import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/profile/profile_event.dart';
+import 'package:taskom/features/authentication/presentation/bloc/profile/profile_state.dart';
 import 'package:taskom/features/authentication/presentation/widgets/form_bottom_text.dart';
 import 'package:taskom/features/authentication/presentation/widgets/register_textfields.dart';
 
-class RegisterBody extends StatelessWidget {
+class RegisterBody extends StatefulWidget {
+  final String? avatarId;
+
   const RegisterBody({
     super.key,
+    this.avatarId,
   });
+
+  @override
+  State<RegisterBody> createState() => _RegisterBodyState();
+}
+
+class _RegisterBodyState extends State<RegisterBody> {
+  @override
+  void initState() {
+    _getAvatar();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +39,24 @@ class RegisterBody extends StatelessWidget {
             const SizedBox(
               height: 58,
             ),
-            SizedBox(
-              width: 128,
-              child: Image.asset("assets/images/avatar.png"),
+            BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileLoadingState) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is AvatarResponseState) {
+                  return state.avatar.fold(
+                    (failure) => Text(failure.message),
+                    (response) {
+                      return SizedBox(
+                        width: 162,
+                        child: CachedImage(imageUrl: response.welcome),
+                      );
+                    },
+                  );
+                }
+                return const SizedBox();
+              },
             ),
             const Text(
               "ساخت حساب کاربری",
@@ -44,13 +79,27 @@ class RegisterBody extends StatelessWidget {
             const SizedBox(
               height: 12,
             ),
-            const FormBottomText(
+            FormBottomText(
               firstText: "حساب کاربری دارید؟",
               secondText: "وارد شوید",
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  AppRouteNames.login,
+                  arguments: widget.avatarId,
+                  (route) => false,
+                );
+              },
             ),
           ],
         ),
       ),
+    );
+  }
+
+  _getAvatar() {
+    BlocProvider.of<ProfileBloc>(context).add(
+      AvatarRequestEvent(id: widget.avatarId!),
     );
   }
 }

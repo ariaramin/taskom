@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/components/app_textfield.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 
 class RegisterTextFields extends StatelessWidget {
   const RegisterTextFields({
@@ -14,21 +15,21 @@ class RegisterTextFields extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 18),
           child: AppTextField(
             labelText: "نام کاربری",
-            iconUrl: "assets/icons/User.svg",
+            iconUrl: AssetsManager.user,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 18),
           child: AppTextField(
             labelText: "ایمیل",
-            iconUrl: "assets/icons/Message.svg",
+            iconUrl: AssetsManager.message,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 18),
           child: AppTextField(
             labelText: "رمز عبور",
-            iconUrl: "assets/icons/Key.svg",
+            iconUrl: AssetsManager.key,
             isPassword: true,
           ),
         ),

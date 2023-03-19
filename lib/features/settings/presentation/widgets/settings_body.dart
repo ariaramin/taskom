@@ -16,7 +16,7 @@ class SettingsBody extends StatelessWidget {
           child: AvatarContainer(),
         ),
         SettingsList(
-          settingsList: SettingsItem.getSettingsItem(),
+          settingsList: SettingsItem.getSettingsItems(),
         ),
       ],
     );

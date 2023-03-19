@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:simple_circular_progress_bar/simple_circular_progress_bar.dart';
 import 'package:taskom/config/components/continuous_rectangle.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
@@ -38,7 +39,7 @@ class _CalendarAndProgressBarState extends State<CalendarAndProgressBar> {
           progressColors: const [AppColors.primaryColor],
           backColor: AppColors.secondaryColor,
           mergeMode: true,
-          animationDuration: 3,
+          animationDuration: 2,
           onGetText: (double value) {
             return Text(
               '٪${value.toInt()}',
@@ -54,7 +55,7 @@ class _CalendarAndProgressBarState extends State<CalendarAndProgressBar> {
         ContinuousRectangle(
           size: 58,
           widget: SvgPicture.asset(
-            "assets/icons/Calendar.svg",
+            AssetsManager.calendar,
             color: Colors.white,
           ),
         ),

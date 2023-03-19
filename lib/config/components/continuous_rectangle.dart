@@ -3,12 +3,14 @@ import 'package:taskom/config/theme/app_colors.dart';
 
 class ContinuousRectangle extends StatelessWidget {
   final double size;
+  final double radius;
   final Color? backgroundColor;
   final Widget widget;
 
   const ContinuousRectangle({
     super.key,
     required this.size,
+    this.radius = 48,
     this.backgroundColor,
     required this.widget,
   });
@@ -20,7 +22,7 @@ class ContinuousRectangle extends StatelessWidget {
       height: size,
       decoration: ShapeDecoration(
         shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.circular(48),
+          borderRadius: BorderRadius.circular(radius),
         ),
         color: backgroundColor ?? AppColors.primaryColor,
       ),

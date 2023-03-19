@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:taskom/features/task/data/models/task.dart';
-import 'package:taskom/features/task/data/util/failure.dart';
-import 'package:taskom/features/task/data/util/filter.dart';
+import 'package:taskom/config/util/failure.dart';
+import 'package:taskom/config/util/filter.dart';
 
 abstract class TaskRepository {
   Future<Either<Failure, List<TaskModel>>> getAllTasks(Filter? filter);

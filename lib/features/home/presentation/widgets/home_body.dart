@@ -13,7 +13,7 @@ import 'package:taskom/features/home/presentation/widgets/search_container.dart'
 import 'package:taskom/features/home/presentation/widgets/section_title.dart';
 import 'package:taskom/features/home/presentation/widgets/welcome_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/features/task/data/util/filter.dart';
+import 'package:taskom/config/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task_event.dart';
@@ -62,11 +62,11 @@ class _HomeBodyState extends State<HomeBody> {
                     ),
                   ),
                 ),
-                const SearchContainer(),
                 const SliverToBoxAdapter(
-                  child: SectionTitle(
-                    title: "دسته‌بندی ها",
-                  ),
+                  child: SearchContainer(),
+                ),
+                const SliverToBoxAdapter(
+                  child: SectionTitle(title: "دسته‌بندی ها"),
                 ),
 
                 // category

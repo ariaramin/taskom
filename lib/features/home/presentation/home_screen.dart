@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
 import 'package:taskom/features/home/presentation/widgets/home_body.dart';
@@ -32,7 +33,7 @@ class HomeScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             backgroundColor: AppColors.primaryColor,
             child: SvgPicture.asset(
-              "assets/icons/Add.svg",
+              AssetsManager.add,
               width: 22,
               color: Colors.white,
             ),

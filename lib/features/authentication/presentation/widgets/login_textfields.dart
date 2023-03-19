@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/components/app_textfield.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 
 class LoginTextFields extends StatelessWidget {
   const LoginTextFields({
@@ -14,14 +15,14 @@ class LoginTextFields extends StatelessWidget {
           padding: EdgeInsets.only(bottom: 18),
           child: AppTextField(
             labelText: "نام کاربری",
-            iconUrl: "assets/icons/User.svg",
+            iconUrl: AssetsManager.user,
           ),
         ),
         Padding(
           padding: EdgeInsets.only(bottom: 18),
           child: AppTextField(
             labelText: "رمز عبور",
-            iconUrl: "assets/icons/Key.svg",
+            iconUrl: AssetsManager.key,
             isPassword: true,
           ),
         ),

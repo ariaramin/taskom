@@ -5,7 +5,8 @@ import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/components/timeline_tabbar.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
-import 'package:taskom/features/task/data/util/filter.dart';
+import 'package:taskom/features/task/data/models/task.dart';
+import 'package:taskom/config/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task_event.dart';
@@ -24,7 +25,7 @@ class TaskListBody extends StatefulWidget {
 }
 
 class _TaskListBodyState extends State<TaskListBody> {
-  // final ValueNotifier<List<DateTime>> _taskDateList = ValueNotifier([]);
+  final ValueNotifier<List<DateTime>?> markedDateList = ValueNotifier([]);
   late DateTime _selectedDate;
   List<DateTime>? _selectedTimeRange;
 
@@ -42,28 +43,19 @@ class _TaskListBodyState extends State<TaskListBody> {
       },
       child: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(
-            child: CustomAppBar(
-              rightSection: DateSection(),
-              leftSection: CalendarAndProgressBar(taskList: []),
-            ),
+          BlocBuilder<TaskBloc, TaskState>(
+            builder: (context, state) {
+              if (state is TaskListResponse) {
+                return state.taskList.fold((failure) {
+                  return _getAppBar([]);
+                }, (response) {
+                  return _getAppBar(response);
+                });
+              }
+              return _getAppBar([]);
+            },
           ),
-          SliverPadding(
-            padding: const EdgeInsets.only(top: 18),
-            sliver: SliverToBoxAdapter(
-              child: DatePicker(
-                startDate: DateTime.now(),
-                endDate: DateTime.now().add(const Duration(days: 30)),
-                initialSelectedDate: DateTime.now(),
-                onSelectedDateChange: (date) {
-                  setState(() {
-                    _selectedDate = date!;
-                  });
-                  _filterTasks(date!, _selectedTimeRange);
-                },
-              ),
-            ),
-          ),
+          _getDatePicker(),
           SliverPadding(
             padding: const EdgeInsets.only(bottom: 8),
             sliver: SliverToBoxAdapter(
@@ -77,35 +69,7 @@ class _TaskListBodyState extends State<TaskListBody> {
               ),
             ),
           ),
-          BlocBuilder<TaskBloc, TaskState>(
-            builder: (context, state) {
-              if (state is TaskLoadingState) {
-                return const SliverToBoxAdapter(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-              if (state is TaskListResponse) {
-                return state.taskList.fold((failure) {
-                  return SliverToBoxAdapter(
-                    child: Center(child: Text(failure.message)),
-                  );
-                }, (response) {
-                  return response.isEmpty
-                      ? const SliverToBoxAdapter(
-                          child: Center(
-                            child: Text(Constants.NO_TASK_MESSAGE),
-                          ),
-                        )
-                      : TaskList(taskList: response);
-                });
-              }
-              return const SliverToBoxAdapter(
-                child: SizedBox(),
-              );
-            },
-          ),
+          _getTaskList(),
           const SliverPadding(
             padding: EdgeInsets.only(bottom: 76),
           ),
@@ -114,10 +78,78 @@ class _TaskListBodyState extends State<TaskListBody> {
     );
   }
 
-  // _setTasksDateList(List<TaskModel> response) {
-  //   _taskDateList.value =
-  //       response.map((element) => element.dateTime!.removeTime()).toList();
-  // }
+  Widget _getTaskList() {
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, state) {
+        if (state is TaskLoadingState) {
+          return const SliverToBoxAdapter(
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state is TaskListResponse) {
+          _setMarkedDateList(state.dateList);
+          return state.taskList.fold((failure) {
+            return SliverToBoxAdapter(
+              child: Center(child: Text(failure.message)),
+            );
+          }, (response) {
+            return response.isEmpty
+                ? const SliverToBoxAdapter(
+                    child: Center(
+                      child: Text(Constants.NO_TASK_MESSAGE),
+                    ),
+                  )
+                : TaskList(taskList: response);
+          });
+        }
+        return const SliverToBoxAdapter(
+          child: SizedBox(),
+        );
+      },
+    );
+  }
+
+  Widget _getAppBar(List<TaskModel> response) {
+    return SliverToBoxAdapter(
+      child: CustomAppBar(
+        rightSection: const DateSection(),
+        leftSection: CalendarAndProgressBar(taskList: response),
+      ),
+    );
+  }
+
+  Widget _getDatePicker() {
+    return SliverPadding(
+      padding: const EdgeInsets.only(top: 18),
+      sliver: SliverToBoxAdapter(
+        child: ValueListenableBuilder(
+          valueListenable: markedDateList,
+          builder: (context, value, child) {
+            return DatePicker(
+              startDate: DateTime.now(),
+              endDate: DateTime.now().add(const Duration(days: 30)),
+              initialSelectedDate: DateTime.now(),
+              markedDates: value,
+              onSelectedDateChange: (date) {
+                setState(() {
+                  _selectedDate = date!;
+                });
+                _filterTasks(date!, _selectedTimeRange);
+              },
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  _setMarkedDateList(List<DateTime>? dateList) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      markedDateList.value = dateList;
+    });
+  }
 
   _filterTasks(DateTime date, List<DateTime>? times) {
     var filter = "date ~ '${date.getGregorianDate()}'";

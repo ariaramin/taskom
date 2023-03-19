@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:taskom/config/components/app_chip.dart';
 import 'package:taskom/config/components/cached_image.dart';
+import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
@@ -116,7 +117,7 @@ class _TaskItemState extends State<TaskItem> {
           title: "ویرایش",
           isLight: true,
           widget: SvgPicture.asset(
-            "assets/icons/Edit.svg",
+            AssetsManager.edit,
             width: 18,
             color: AppColors.primaryColor,
           ),
@@ -128,7 +129,7 @@ class _TaskItemState extends State<TaskItem> {
           title:
               "${widget.task.dateTime!.hour}:${_getMinute(widget.task.dateTime!)}",
           widget: SvgPicture.asset(
-            "assets/icons/Time.svg",
+            AssetsManager.time,
             width: 16,
             color: Colors.white,
           ),
