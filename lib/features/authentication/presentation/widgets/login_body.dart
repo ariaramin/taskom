@@ -3,6 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/app_button.dart';
 import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/route/app_route_names.dart';
+import 'package:taskom/features/authentication/data/models/avatar.dart';
+import 'package:taskom/features/authentication/data/util/auth_manager.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_event.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_event.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_state.dart';
@@ -22,6 +27,10 @@ class LoginBody extends StatefulWidget {
 }
 
 class _LoginBodyState extends State<LoginBody> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late Avatar avatar;
+
   @override
   void initState() {
     _getAvatar();
@@ -68,13 +77,35 @@ class _LoginBodyState extends State<LoginBody> {
             const SizedBox(
               height: 22,
             ),
-            const LoginTextFields(),
+            LoginTextFields(
+              emailController: _emailController,
+              passwordController: _passwordController,
+            ),
             const SizedBox(
               height: 42,
             ),
-            AppButton(
-              text: "ورود",
-              onPressed: () {},
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return AppButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      LoginRequest(
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                      ),
+                    );
+                    if (AuthManager.isLogedIn()) {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRouteNames.base,
+                        (route) => false,
+                      );
+                    }
+                  },
+                  isLoading: state is AuthLoadingState ? true : false,
+                  text: "ورود",
+                );
+              },
             ),
             const SizedBox(
               height: 12,

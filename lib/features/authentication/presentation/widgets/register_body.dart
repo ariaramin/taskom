@@ -3,6 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/app_button.dart';
 import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/route/app_route_names.dart';
+import 'package:taskom/features/authentication/data/models/avatar.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_event.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_event.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_state.dart';
@@ -22,6 +26,11 @@ class RegisterBody extends StatefulWidget {
 }
 
 class _RegisterBodyState extends State<RegisterBody> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  late Avatar avatar;
+
   @override
   void initState() {
     _getAvatar();
@@ -48,6 +57,7 @@ class _RegisterBodyState extends State<RegisterBody> {
                   return state.avatar.fold(
                     (failure) => Text(failure.message),
                     (response) {
+                      avatar = response;
                       return SizedBox(
                         width: 162,
                         child: CachedImage(imageUrl: response.welcome),
@@ -68,13 +78,38 @@ class _RegisterBodyState extends State<RegisterBody> {
             const SizedBox(
               height: 22,
             ),
-            const RegisterTextFields(),
+            RegisterTextFields(
+              usernameController: _usernameController,
+              emailController: _emailController,
+              passwordController: _passwordController,
+            ),
             const SizedBox(
               height: 42,
             ),
-            AppButton(
-              text: "ثبت نام",
-              onPressed: () {},
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                return AppButton(
+                  onPressed: () {
+                    BlocProvider.of<AuthBloc>(context).add(
+                      RegisterRequest(
+                        username: _usernameController.text,
+                        email: _emailController.text,
+                        password: _passwordController.text,
+                        avatar: avatar,
+                      ),
+                    );
+                    // if (state is AuthResponseState) {
+                    //   Navigator.pushNamedAndRemoveUntil(
+                    //     context,
+                    //     AppRouteNames.base,
+                    //     (route) => false,
+                    //   );
+                    // }
+                  },
+                  isLoading: state is AuthLoadingState ? true : false,
+                  text: "ثبت نام",
+                );
+              },
             ),
             const SizedBox(
               height: 12,

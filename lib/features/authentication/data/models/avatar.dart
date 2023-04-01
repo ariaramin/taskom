@@ -1,4 +1,8 @@
 import 'package:taskom/config/constants/constants.dart';
+import 'dart:io';
+import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class Avatar {
   final String? id;
@@ -23,5 +27,13 @@ class Avatar {
       welcome:
           '${Constants.BASE_URL}files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['welcome']}',
     );
+  }
+
+  Future<String> urlToFile() async {
+    final response = await http.get(Uri.parse(main!));
+    final documentDirectory = await getApplicationDocumentsDirectory();
+    final file = File(join(documentDirectory.path, 'avatar.png'));
+    file.writeAsBytesSync(response.bodyBytes);
+    return file.path;
   }
 }

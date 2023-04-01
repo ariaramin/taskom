@@ -1,18 +1,17 @@
+import 'package:dartz/dartz.dart';
+import 'package:taskom/config/util/failure.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
-import 'package:taskom/features/authentication/data/models/user.dart';
 
-abstract class AuthDatasource {
-  Future<void> register(
+abstract class AuthRepository {
+  Future<Either<Failure, String>> register(
     String username,
     String email,
     String password,
     Avatar avatar,
   );
 
-  Future<String> login(
+  Future<Either<Failure, String>> login(
     String email,
     String password,
   );
-
-  Future<User> getUser();
 }

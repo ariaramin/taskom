@@ -7,6 +7,7 @@ class User {
   final String? name;
   final String? email;
   final bool? verified;
+  String? token;
 
   User({
     this.id,
@@ -15,6 +16,7 @@ class User {
     this.name,
     this.email,
     this.verified,
+    this.token,
   });
 
   factory User.fromMapJson(Map<String, dynamic> jsonObject) {
@@ -36,5 +38,6 @@ class User {
         'name': name,
         'email': email,
         'verified': verified,
+        'token': token,
       };
 }

@@ -15,3 +15,11 @@ class Failure extends Equatable {
   factory Failure.serverFailure(String? message) =>
       Failure(message ?? Constants.NONE_TEXTUAL_ERROR_MESSAGE);
 }
+
+class AuthFailure extends Failure {
+  final Map<String, dynamic>? error;
+  const AuthFailure({required String message, this.error}) : super(message);
+
+  @override
+  List<Object?> get props => [];
+}

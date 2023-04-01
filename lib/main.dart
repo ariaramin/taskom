@@ -5,6 +5,7 @@ import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_theme.dart';
 import 'package:taskom/config/theme/theme_provider.dart';
 import 'package:taskom/di/di.dart';
+import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,9 @@ class Application extends StatelessWidget {
             darkTheme: AppTheme.dark,
             themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
             onGenerateRoute: (settings) => AppRoute.generate(settings),
-            initialRoute: AppRouteNames.selectAvatar,
+            initialRoute: AuthManager.isLogedIn()
+                ? AppRouteNames.base
+                : AppRouteNames.selectAvatar,
           );
         },
       ),
