@@ -36,20 +36,20 @@ class AuthDatasourceImpl implements AuthDatasource {
 
   @override
   Future<void> register(
-    String username,
+    String fullName,
     String email,
     String password,
-    Avatar avatar,
   ) async {
     try {
-      var formData = FormData.fromMap({
-        "name": username,
-        "email": email,
-        "password": password,
-        "passwordConfirm": password,
-        "avatar": await MultipartFile.fromFile(await avatar.urlToFile()),
-      });
-      await _dio.post(Constants.USERS_RECORDS_URL, data: formData);
+      await _dio.post(
+        Constants.USERS_RECORDS_URL,
+        data: {
+          "name": fullName,
+          "email": email,
+          "password": password,
+          "passwordConfirm": password,
+        },
+      );
     } on DioError catch (error) {
       throw AuthException(
         error.response?.statusCode,
@@ -77,6 +77,41 @@ class AuthDatasourceImpl implements AuthDatasource {
         }
       }
       return User();
+    } on DioError catch (error) {
+      throw AuthException(
+        error.response?.statusCode,
+        error.response?.data["data"],
+      );
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> updateUser(
+    String id,
+    String? fullName,
+    String? email,
+    String? password,
+    Avatar? avatar,
+  ) async {
+    try {
+      var formData = FormData.fromMap({
+        "name": fullName,
+        "email": email,
+        "password": password,
+        "passwordConfirm": password,
+      });
+      if (avatar != null) {
+        formData = FormData.fromMap({
+          "name": fullName,
+          "email": email,
+          "password": password,
+          "passwordConfirm": password,
+          "avatar": await MultipartFile.fromFile(await avatar.urlToFile()),
+        });
+      }
+      await _dio.patch("${Constants.USERS_RECORDS_URL}:$id", data: formData);
     } on DioError catch (error) {
       throw AuthException(
         error.response?.statusCode,

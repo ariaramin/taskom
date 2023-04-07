@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/route/app_route_names.dart';
-import 'package:taskom/features/authentication/data/models/avatar.dart';
 import 'package:taskom/features/authentication/presentation/presenters/login_screen.dart';
 import 'package:taskom/features/authentication/presentation/presenters/register_screen.dart';
 import 'package:taskom/features/authentication/presentation/presenters/select_avatar_screen.dart';
@@ -19,21 +18,17 @@ class AppRoute {
         );
       case AppRouteNames.login:
         return MaterialPageRoute(
-          builder: (context) => Directionality(
+          builder: (context) => const Directionality(
             textDirection: TextDirection.rtl,
-            child: LoginScreen(
-              avatarId: settings.arguments as String?,
-            ),
+            child: LoginScreen(),
           ),
           settings: settings,
         );
       case AppRouteNames.register:
         return MaterialPageRoute(
-          builder: (context) => Directionality(
+          builder: (context) => const Directionality(
             textDirection: TextDirection.rtl,
-            child: RegisterScreen(
-              avatarId: settings.arguments as String?,
-            ),
+            child: RegisterScreen(),
           ),
           settings: settings,
         );

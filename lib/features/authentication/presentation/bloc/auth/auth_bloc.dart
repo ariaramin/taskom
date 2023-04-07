@@ -26,10 +26,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       (event, emit) async {
         emit(AuthLoadingState());
         var params = RegisterParams(
-          username: event.username,
+          username: event.fullName,
           email: event.email,
           password: event.password,
-          avatar: event.avatar,
         );
         var response = await _register.call(params);
         emit(AuthResponseState(response));

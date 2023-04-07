@@ -9,13 +9,13 @@ import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 
 class RegisterTextFields extends StatelessWidget {
-  final TextEditingController usernameController;
+  final TextEditingController fullNameController;
   final TextEditingController emailController;
   final TextEditingController passwordController;
 
   const RegisterTextFields({
     super.key,
-    required this.usernameController,
+    required this.fullNameController,
     required this.emailController,
     required this.passwordController,
   });
@@ -29,10 +29,10 @@ class RegisterTextFields extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 18),
               child: AppTextField(
-                controller: usernameController,
-                labelText: "نام کاربری",
+                controller: fullNameController,
+                labelText: "نام و نام خانوادگی",
                 iconUrl: AssetsManager.user,
-                errorText: _getFieldError(state, usernameController, "name"),
+                errorText: _getFieldError(state, fullNameController, "name"),
               ),
             ),
             Padding(

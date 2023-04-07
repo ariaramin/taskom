@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:taskom/features/authentication/data/models/avatar.dart';
 
 abstract class AuthEvent extends Equatable {}
 
@@ -16,14 +15,12 @@ class LoginRequest extends AuthEvent {
 }
 
 class RegisterRequest extends AuthEvent {
-  final String username, email, password;
-  final Avatar avatar;
+  final String fullName, email, password;
 
   RegisterRequest({
-    required this.username,
+    required this.fullName,
     required this.email,
     required this.password,
-    required this.avatar,
   });
 
   @override

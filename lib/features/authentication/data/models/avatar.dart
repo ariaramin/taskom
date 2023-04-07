@@ -31,8 +31,8 @@ class Avatar {
 
   Future<String> urlToFile() async {
     final response = await http.get(Uri.parse(main!));
-    final documentDirectory = await getApplicationDocumentsDirectory();
-    final file = File(join(documentDirectory.path, 'avatar.png'));
+    final downloadsDirectory = await getDownloadsDirectory();
+    final file = File(join(downloadsDirectory?.path ?? "", 'avatar.png'));
     file.writeAsBytesSync(response.bodyBytes);
     return file.path;
   }

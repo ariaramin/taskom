@@ -5,12 +5,7 @@ import 'package:taskom/features/authentication/presentation/bloc/profile/profile
 import 'package:taskom/features/authentication/presentation/widgets/login_body.dart';
 
 class LoginScreen extends StatelessWidget {
-  final String? avatarId;
-
-  const LoginScreen({
-    super.key,
-    this.avatarId,
-  });
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +20,7 @@ class LoginScreen extends StatelessWidget {
               create: (context) => AuthBloc(),
             ),
           ],
-          child: LoginBody(avatarId: avatarId),
+          child: LoginBody(),
         ),
       ),
     );

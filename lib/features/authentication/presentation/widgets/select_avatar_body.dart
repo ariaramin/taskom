@@ -35,7 +35,7 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
         _getData();
       },
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -117,12 +117,12 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
             AppButton(
               text: "انتخاب",
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  AppRouteNames.register,
-                  arguments: _selectedAvatarId,
-                  (route) => false,
-                );
+                // Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   AppRouteNames.register,
+                //   arguments: _selectedAvatarId,
+                //   (route) => false,
+                // );
               },
             ),
           ],

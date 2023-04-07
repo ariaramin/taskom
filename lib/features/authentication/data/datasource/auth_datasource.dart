@@ -3,15 +3,22 @@ import 'package:taskom/features/authentication/data/models/user.dart';
 
 abstract class AuthDatasource {
   Future<void> register(
-    String username,
+    String fullName,
     String email,
     String password,
-    Avatar avatar,
   );
 
   Future<String> login(
     String email,
     String password,
+  );
+
+  Future<void> updateUser(
+    String id,
+    String? fullName,
+    String? email,
+    String? password,
+    Avatar? avatar,
   );
 
   Future<User> getUser();
