@@ -4,6 +4,4 @@ import 'package:taskom/features/authentication/data/models/avatar.dart';
 
 abstract class ProfileRepository {
   Future<Either<Failure, List<Avatar>>> getAllAvatars();
-
-  Future<Either<Failure, Avatar>> getAvatar(String id);
 }

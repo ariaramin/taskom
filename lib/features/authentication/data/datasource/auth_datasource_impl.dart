@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/config/util/api_exception.dart';
 import 'package:taskom/config/util/auth_exception.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/authentication/data/datasource/auth_datasource.dart';
@@ -35,13 +36,13 @@ class AuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<void> register(
+  Future<String> register(
     String fullName,
     String email,
     String password,
   ) async {
     try {
-      await _dio.post(
+      var response = await _dio.post(
         Constants.USERS_RECORDS_URL,
         data: {
           "name": fullName,
@@ -50,33 +51,10 @@ class AuthDatasourceImpl implements AuthDatasource {
           "passwordConfirm": password,
         },
       );
-    } on DioError catch (error) {
-      throw AuthException(
-        error.response?.statusCode,
-        error.response?.data["data"],
-      );
-    } catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<User> getUser() async {
-    try {
-      if (AuthManager.isLogedIn()) {
-        var response = await _dio.post(
-          Constants.AUTH_REFRESH_URL,
-          options: Options(
-            headers: {"Authorization": AuthManager.getToken()},
-          ),
-        );
-        if (response.statusCode == 200) {
-          var user = User.fromMapJson(response.data?["record"]);
-          user.token = response.data?["token"];
-          return user;
-        }
+      if (response.statusCode == 200) {
+        return response.data?["id"];
       }
-      return User();
+      return "";
     } on DioError catch (error) {
       throw AuthException(
         error.response?.statusCode,
@@ -111,7 +89,42 @@ class AuthDatasourceImpl implements AuthDatasource {
           "avatar": await MultipartFile.fromFile(await avatar.urlToFile()),
         });
       }
-      await _dio.patch("${Constants.USERS_RECORDS_URL}:$id", data: formData);
+      if (AuthManager.isLogedIn()) {
+        await _dio.patch(
+          "${Constants.USERS_RECORDS_URL}/$id",
+          options: Options(
+            headers: {"Authorization": AuthManager.getToken()},
+          ),
+          data: formData,
+        );
+      }
+    } on DioError catch (error) {
+      throw ApiException(
+        code: error.response?.statusCode,
+        message: error.response?.data["message"],
+      );
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<User> getUser() async {
+    try {
+      if (AuthManager.isLogedIn()) {
+        var response = await _dio.post(
+          Constants.AUTH_REFRESH_URL,
+          options: Options(
+            headers: {"Authorization": AuthManager.getToken()},
+          ),
+        );
+        if (response.statusCode == 200) {
+          var user = User.fromMapJson(response.data?["record"]);
+          user.token = response.data?["token"];
+          return user;
+        }
+      }
+      return User();
     } on DioError catch (error) {
       throw AuthException(
         error.response?.statusCode,

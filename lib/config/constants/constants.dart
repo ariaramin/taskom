@@ -10,10 +10,13 @@ class Constants {
   static const String AUTH_REFRESH_URL = "collections/users/auth-refresh";
   static const String USERS_RECORDS_URL = "collections/users/records";
 
+  // messages
   static const String AUTH_ERROR_MESSAGE = "احراز هویت ناموفق بود.";
   static const String LOGIN_SUCCESS_MESSAGE = "شما با موفقیت وارد شده اید";
   static const String REGISTER_ERROR_MESSAGE = "ثبت نام ناموفق بود.";
-  static const String REGISTER_SUCCESS_MESSAGE = "ثبت نام با موفقیت انجام شد!";
+  static const String REGISTER_SUCCESS_MESSAGE = "ثبت نام با موفقیت انجام شد.";
+  static const String PROFILE_UPDATED_SUCCESS_MESSAGE =
+      "پروفایل با موفقیت ویرایش شد.";
   static const String BLANK_ERROR_MESSAGE = "این فیلد نباید خالی باشد.";
   static const String NO_TASK_MESSAGE = "تسکی برای امروز وجود ندارد";
   static const String NO_TASK_AT_THIS_TIME_MESSAGE =

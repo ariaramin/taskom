@@ -5,6 +5,10 @@ import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
+import 'package:taskom/features/authentication/data/util/auth_manager.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_event.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_event.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_state.dart';
@@ -20,7 +24,7 @@ class SelectAvatarBody extends StatefulWidget {
 
 class _SelectAvatarBodyState extends State<SelectAvatarBody> {
   int _selectedAvatarIndex = 0;
-  String? _selectedAvatarId;
+  Avatar? _selectedAvatar;
 
   @override
   void initState() {
@@ -61,8 +65,8 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                   }
                   if (state is AllAvatarsResponseState) {
                     return state.avatarList
-                        .fold((failure) => Text(failure.message), (response) {
-                      _setSelectedAvatar(response);
+                        .fold((failure) => Center(child: Text(failure.message)),
+                            (response) {
                       return GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
@@ -78,7 +82,7 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                               onTap: () {
                                 setState(() {
                                   _selectedAvatarIndex = index;
-                                  _selectedAvatarId = response[index].id;
+                                  _selectedAvatar = response[index];
                                 });
                               },
                               child: Container(
@@ -112,29 +116,42 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
               ),
             ),
             const SizedBox(
-              height: 52,
+              height: 18,
             ),
-            AppButton(
-              text: "انتخاب",
-              onPressed: () {
-                // Navigator.pushNamedAndRemoveUntil(
-                //   context,
-                //   AppRouteNames.register,
-                //   arguments: _selectedAvatarId,
-                //   (route) => false,
-                // );
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, state) {
+                if (state is AuthResponseState) {
+                  state.response.fold((l) => null, (r) async {
+                    await Future.delayed(
+                      const Duration(milliseconds: 500),
+                      () {
+                        Navigator.pushNamedAndRemoveUntil(
+                          context,
+                          AppRouteNames.base,
+                          (route) => false,
+                        );
+                      },
+                    );
+                  });
+                }
+                return AppButton(
+                  text: "انتخاب",
+                  onPressed: () {
+                    var userId = AuthManager.getUserId();
+                    BlocProvider.of<AuthBloc>(context)
+                        .add(UpdateUserRequestEvent(
+                      id: userId,
+                      avatar: _selectedAvatar,
+                    ));
+                  },
+                  isLoading: state is AuthLoadingState ? true : false,
+                );
               },
             ),
           ],
         ),
       ),
     );
-  }
-
-  _setSelectedAvatar(List<Avatar> response) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _selectedAvatarId = response[_selectedAvatarIndex].id;
-    });
   }
 
   _getData() {

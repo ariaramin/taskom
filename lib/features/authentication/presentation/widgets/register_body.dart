@@ -46,14 +46,17 @@ class RegisterBody extends StatelessWidget {
           BlocBuilder<AuthBloc, AuthState>(
             builder: (context, state) {
               if (state is AuthResponseState) {
-                state.response.fold((l) => null, (r) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      AppRouteNames.selectAvatar,
-                      (route) => false,
-                    );
-                  });
+                state.response.fold((l) => null, (r) async {
+                  await Future.delayed(
+                    const Duration(milliseconds: 500),
+                    () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        AppRouteNames.selectAvatar,
+                        (route) => false,
+                      );
+                    },
+                  );
                 });
               }
               return AppButton(

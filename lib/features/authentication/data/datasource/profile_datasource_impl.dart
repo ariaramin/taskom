@@ -24,26 +24,4 @@ class ProfileDatasourceImpl extends ProfileDatasource {
       rethrow;
     }
   }
-
-  @override
-  Future<Avatar> getAvatar(String id) async {
-    try {
-      var response = await _dio.get(
-        Constants.AVATARS_RECORDS_URL,
-        queryParameters: {
-          "filter": "id='$id'",
-        },
-      );
-      return response.data['items']
-          .map<Avatar>((jsonObject) => Avatar.fromMapJson(jsonObject))
-          .toList()[0];
-    } on DioError catch (error) {
-      throw ApiException(
-        code: error.response?.statusCode,
-        message: error.response?.data["message"],
-      );
-    } catch (_) {
-      rethrow;
-    }
-  }
 }

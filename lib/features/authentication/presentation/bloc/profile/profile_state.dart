@@ -18,16 +18,7 @@ class ProfileLoadingState extends ProfileState {
 class AllAvatarsResponseState extends ProfileState {
   final Either<Failure, List<Avatar>> avatarList;
 
-  AllAvatarsResponseState({required this.avatarList});
-
-  @override
-  List<Object?> get props => [];
-}
-
-class AvatarResponseState extends ProfileState {
-  final Either<Failure, Avatar> avatar;
-
-  AvatarResponseState({required this.avatar});
+  AllAvatarsResponseState(this.avatarList);
 
   @override
   List<Object?> get props => [];

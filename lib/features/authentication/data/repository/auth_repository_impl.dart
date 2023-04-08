@@ -6,6 +6,7 @@ import 'package:taskom/config/util/auth_exception.dart';
 import 'package:taskom/config/util/failure.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/authentication/data/datasource/auth_datasource.dart';
+import 'package:taskom/features/authentication/data/models/avatar.dart';
 import 'package:taskom/features/authentication/data/repository/auth_repository.dart';
 import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 
@@ -42,11 +43,44 @@ class AuthRepositoryImpl implements AuthRepository {
     String password,
   ) async {
     try {
-      await _datasource.register(fullName, email, password);
-      return right(Constants.REGISTER_SUCCESS_MESSAGE);
+      var userId = await _datasource.register(fullName, email, password);
+      if (userId.isNotEmpty) {
+        AuthManager.saveUserId(userId);
+        var loginResponse = await login(email, password);
+        return loginResponse.fold(
+            (l) =>
+                left(Failure.serverFailure(Constants.REGISTER_ERROR_MESSAGE)),
+            (r) => right(Constants.REGISTER_SUCCESS_MESSAGE));
+      } else {
+        return left(Failure.serverFailure(Constants.ERROR_MESSAGE));
+      }
     } on AuthException catch (ex) {
       return left(AuthFailure(
           message: Constants.REGISTER_ERROR_MESSAGE, error: ex.error));
+    } on ApiException catch (error) {
+      return left(Failure.serverFailure(error.message));
+    } on SocketException {
+      return left(Failure.connectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateUser(
+    String id,
+    String? fullName,
+    String? email,
+    String? password,
+    Avatar? avatar,
+  ) async {
+    try {
+      await _datasource.updateUser(
+        id,
+        fullName,
+        email,
+        password,
+        avatar,
+      );
+      return right(Constants.PROFILE_UPDATED_SUCCESS_MESSAGE);
     } on ApiException catch (error) {
       return left(Failure.serverFailure(error.message));
     } on SocketException {
