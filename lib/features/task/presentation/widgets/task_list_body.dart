@@ -26,8 +26,9 @@ class TaskListBody extends StatefulWidget {
 
 class _TaskListBodyState extends State<TaskListBody> {
   final ValueNotifier<List<DateTime>?> markedDateList = ValueNotifier([]);
-  late DateTime _selectedDate;
+  DateTime _selectedDate = DateTime.now();
   List<DateTime>? _selectedTimeRange;
+  int _activeTasksCount = 0;
 
   @override
   void initState() {
@@ -79,7 +80,18 @@ class _TaskListBodyState extends State<TaskListBody> {
   }
 
   Widget _getTaskList() {
-    return BlocBuilder<TaskBloc, TaskState>(
+    return BlocConsumer<TaskBloc, TaskState>(
+      listener: (context, state) {
+        if (state is TaskListResponse) {
+          _setMarkedDateList(state.dateList);
+          setState(() {
+            if (_activeTasksCount == 0) {
+              _activeTasksCount =
+                  state.taskList.fold((l) => 0, (response) => response.length);
+            }
+          });
+        }
+      },
       builder: (context, state) {
         if (state is TaskLoadingState) {
           return const SliverToBoxAdapter(
@@ -89,7 +101,6 @@ class _TaskListBodyState extends State<TaskListBody> {
           );
         }
         if (state is TaskListResponse) {
-          _setMarkedDateList(state.dateList);
           return state.taskList.fold((failure) {
             return SliverToBoxAdapter(
               child: Center(child: Text(failure.message)),
@@ -114,7 +125,9 @@ class _TaskListBodyState extends State<TaskListBody> {
   Widget _getAppBar(List<TaskModel> response) {
     return SliverToBoxAdapter(
       child: CustomAppBar(
-        rightSection: const DateSection(),
+        rightSection: DateSection(
+          activeTasksCount: _activeTasksCount,
+        ),
         leftSection: CalendarAndProgressBar(taskList: response),
       ),
     );

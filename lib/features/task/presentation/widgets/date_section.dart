@@ -3,8 +3,11 @@ import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 
 class DateSection extends StatelessWidget {
+  final int activeTasksCount;
+
   const DateSection({
     Key? key,
+    required this.activeTasksCount,
   }) : super(key: key);
 
   @override
@@ -19,9 +22,9 @@ class DateSection extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const Text(
-          "۲۰ تسک فعال برای امروز",
-          style: TextStyle(
+        Text(
+          "$activeTasksCount تسک فعال برای امروز",
+          style: const TextStyle(
             fontSize: 12,
             color: AppColors.greyColor,
           ),

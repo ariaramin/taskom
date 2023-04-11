@@ -12,6 +12,7 @@ import 'package:taskom/features/authentication/data/repository/auth_repository_i
 import 'package:taskom/features/authentication/data/repository/profile_repository.dart';
 import 'package:taskom/features/authentication/data/repository/profile_repository_impl.dart';
 import 'package:taskom/features/authentication/domain/usecase/get_all_avatars.dart';
+import 'package:taskom/features/authentication/domain/usecase/get_user.dart';
 import 'package:taskom/features/authentication/domain/usecase/login.dart';
 import 'package:taskom/features/authentication/domain/usecase/register.dart';
 import 'package:taskom/features/authentication/domain/usecase/update_user.dart';
@@ -64,4 +65,5 @@ Future initGetIt() async {
   locator.registerFactory<Login>(() => Login());
   locator.registerFactory<Register>(() => Register());
   locator.registerFactory<UpdateUser>(() => UpdateUser());
+  locator.registerFactory<GetUser>(() => GetUser());
 }

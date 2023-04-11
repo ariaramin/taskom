@@ -44,7 +44,7 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 58,
+              height: 52,
             ),
             const Text(
               "انتخاب آواتار",
@@ -54,10 +54,9 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
               ),
             ),
             const SizedBox(
-              height: 42,
+              height: 32,
             ),
-            SizedBox(
-              height: 392,
+            Flexible(
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is ProfileLoadingState) {
@@ -85,25 +84,10 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                                   _selectedAvatar = response[index];
                                 });
                               },
-                              child: Container(
-                                width: 128,
-                                height: 128,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(62),
-                                  border: _selectedAvatarIndex == index
-                                      ? Border.all(
-                                          width: 4,
-                                          color: AppColors.primaryColor,
-                                        )
-                                      : null,
-                                  color: AppColors.secondaryColor,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: CachedImage(
-                                    imageUrl: response[index].main,
-                                  ),
-                                ),
+                              child: AvatarItem(
+                                currentIndex: index,
+                                selectedAvatarIndex: _selectedAvatarIndex,
+                                imageUrl: response[index].main,
                               ),
                             ),
                           );
@@ -114,9 +98,6 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                   return const SizedBox();
                 },
               ),
-            ),
-            const SizedBox(
-              height: 18,
             ),
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
@@ -148,6 +129,9 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                 );
               },
             ),
+            const SizedBox(
+              height: 18,
+            ),
           ],
         ),
       ),
@@ -156,5 +140,42 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
 
   _getData() {
     BlocProvider.of<ProfileBloc>(context).add(AvatarListRequestEvent());
+  }
+}
+
+class AvatarItem extends StatelessWidget {
+  final int currentIndex;
+  final int selectedAvatarIndex;
+  final String? imageUrl;
+
+  const AvatarItem({
+    super.key,
+    required this.currentIndex,
+    required this.selectedAvatarIndex,
+    this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 128,
+      height: 128,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(62),
+        border: selectedAvatarIndex == currentIndex
+            ? Border.all(
+                width: 4,
+                color: AppColors.primaryColor,
+              )
+            : null,
+        color: AppColors.secondaryColor,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(6),
+        child: CachedImage(
+          imageUrl: imageUrl,
+        ),
+      ),
+    );
   }
 }

@@ -44,3 +44,8 @@ class UpdateUserRequestEvent extends AuthEvent {
   @override
   List<Object?> get props => [];
 }
+
+class GetUserRequestEvent extends AuthEvent {
+  @override
+  List<Object?> get props => [];
+}

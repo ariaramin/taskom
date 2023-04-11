@@ -126,9 +126,9 @@ class AuthDatasourceImpl implements AuthDatasource {
       }
       return User();
     } on DioError catch (error) {
-      throw AuthException(
-        error.response?.statusCode,
-        error.response?.data["data"],
+      throw ApiException(
+        code: error.response?.statusCode,
+        message: error.response?.data["message"],
       );
     } catch (_) {
       rethrow;

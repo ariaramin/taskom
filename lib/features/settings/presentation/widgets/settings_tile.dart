@@ -8,6 +8,7 @@ class SettingsTile extends StatelessWidget {
   final String title;
   final Widget? trailingWidget;
   final Color? color;
+  final Function()? onTap;
 
   const SettingsTile({
     super.key,
@@ -15,47 +16,51 @@ class SettingsTile extends StatelessWidget {
     required this.title,
     this.trailingWidget,
     this.color,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        borderRadius: BorderRadius.circular(22),
-      ),
-      child: Row(
-        children: [
-          ContinuousRectangle(
-            size: 46,
-            backgroundColor: color,
-            widget: SizedBox(
-              width: 20,
-              child: icon,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(22),
+        ),
+        child: Row(
+          children: [
+            ContinuousRectangle(
+              size: 46,
+              backgroundColor: color,
+              widget: SizedBox(
+                width: 20,
+                child: icon,
+              ),
             ),
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
+            const SizedBox(
+              width: 8,
             ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: trailingWidget ??
-                SvgPicture.asset(
-                  AssetsManager.leftArrow,
-                  width: 10,
-                  color: Theme.of(context).colorScheme.onPrimary,
-                ),
-          ),
-        ],
+            Text(
+              title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const Spacer(),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: trailingWidget ??
+                  SvgPicture.asset(
+                    AssetsManager.leftArrow,
+                    width: 10,
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
+            ),
+          ],
+        ),
       ),
     );
   }

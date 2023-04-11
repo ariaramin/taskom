@@ -7,6 +7,7 @@ import 'package:taskom/config/util/failure.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/authentication/data/datasource/auth_datasource.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
+import 'package:taskom/features/authentication/data/models/user.dart';
 import 'package:taskom/features/authentication/data/repository/auth_repository.dart';
 import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 
@@ -81,6 +82,23 @@ class AuthRepositoryImpl implements AuthRepository {
         avatar,
       );
       return right(Constants.PROFILE_UPDATED_SUCCESS_MESSAGE);
+    } on ApiException catch (error) {
+      return left(Failure.serverFailure(error.message));
+    } on SocketException {
+      return left(Failure.connectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> getUser() async {
+    try {
+      var user = await _datasource.getUser();
+      if (user.token != null && user.token!.isNotEmpty) {
+        AuthManager.saveToken(user.token!);
+        return right(user);
+      } else {
+        return left(Failure.serverFailure(Constants.ERROR_MESSAGE));
+      }
     } on ApiException catch (error) {
       return left(Failure.serverFailure(error.message));
     } on SocketException {

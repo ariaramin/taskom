@@ -6,13 +6,13 @@ class SettingsItem {
   final String? iconUrl;
   final String? title;
   final Color? color;
-  final bool? isToggleWidget;
+  final SettingsItemEnum settingsItemEnum;
 
   SettingsItem({
     this.iconUrl,
     this.title,
     this.color,
-    this.isToggleWidget,
+    required this.settingsItemEnum,
   });
 
   static List<SettingsItem> getSettingsItems() {
@@ -20,33 +20,43 @@ class SettingsItem {
       SettingsItem(
         iconUrl: AssetsManager.moon,
         title: "دارک مود",
-        isToggleWidget: true,
+        settingsItemEnum: SettingsItemEnum.darkMode,
       ),
       SettingsItem(
         iconUrl: AssetsManager.virusChecked,
         title: "حریم خصوصی",
-        isToggleWidget: false,
+        settingsItemEnum: SettingsItemEnum.privacyPolicy,
       ),
       SettingsItem(
         iconUrl: AssetsManager.virus,
         title: "گزارش باگ",
-        isToggleWidget: false,
+        settingsItemEnum: SettingsItemEnum.reportBug,
       ),
       SettingsItem(
         iconUrl: AssetsManager.call,
         title: "تماس با ما",
-        isToggleWidget: false,
+        settingsItemEnum: SettingsItemEnum.contact,
       ),
       SettingsItem(
         iconUrl: AssetsManager.information,
         title: "درباره ما",
-        isToggleWidget: false,
+        settingsItemEnum: SettingsItemEnum.about,
       ),
       SettingsItem(
         iconUrl: AssetsManager.exit,
         title: "خروج از حساب کاربری",
         color: AppColors.errorColor,
+        settingsItemEnum: SettingsItemEnum.logout,
       ),
     ];
   }
+}
+
+enum SettingsItemEnum {
+  darkMode,
+  privacyPolicy,
+  reportBug,
+  contact,
+  about,
+  logout,
 }

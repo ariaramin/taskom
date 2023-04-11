@@ -5,6 +5,8 @@ import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/components/timeline_tabbar.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_event.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
 import 'package:taskom/features/home/presentation/bloc/home_event.dart';
 import 'package:taskom/features/home/presentation/bloc/home_state.dart';
@@ -29,10 +31,11 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
+  int _activeTasksCount = 0;
+
   @override
   void initState() {
-    _getHomeData();
-    _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
+    _getData();
     super.initState();
   }
 
@@ -40,8 +43,7 @@ class _HomeBodyState extends State<HomeBody> {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {
-        _getHomeData();
-        _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
+        _getData();
       },
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
@@ -53,14 +55,8 @@ class _HomeBodyState extends State<HomeBody> {
           if (state is HomeResponseState) {
             return CustomScrollView(
               slivers: [
-                const SliverToBoxAdapter(
-                  child: CustomAppBar(
-                    rightSection: WelcomeSection(),
-                    leftSection: AppChip(
-                      title: "۲۰ تسک فعال",
-                      isLight: true,
-                    ),
-                  ),
+                SliverToBoxAdapter(
+                  child: _getAppBar(),
                 ),
                 const SliverToBoxAdapter(
                   child: SearchContainer(),
@@ -114,8 +110,28 @@ class _HomeBodyState extends State<HomeBody> {
     );
   }
 
+  Widget _getAppBar() {
+    return CustomAppBar(
+      rightSection: const WelcomeSection(),
+      leftSection: AppChip(
+        title: "$_activeTasksCount تسک فعال",
+        isLight: true,
+      ),
+    );
+  }
+
   Widget _getTaskList() {
-    return BlocBuilder<TaskBloc, TaskState>(
+    return BlocConsumer<TaskBloc, TaskState>(
+      listener: (context, state) {
+        if (state is TaskListResponse) {
+          setState(() {
+            if (_activeTasksCount == 0) {
+              _activeTasksCount =
+                  state.taskList.fold((l) => 0, (response) => response.length);
+            }
+          });
+        }
+      },
       builder: (context, state) {
         if (state is TaskLoadingState) {
           return const SliverToBoxAdapter(
@@ -152,6 +168,12 @@ class _HomeBodyState extends State<HomeBody> {
         : _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
   }
 
+  _getData() {
+    _getHomeData();
+    _getUser();
+    _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
+  }
+
   _getTaskData(String filter) {
     BlocProvider.of<TaskBloc>(context).add(
       TaskListRequestEvent(
@@ -162,6 +184,10 @@ class _HomeBodyState extends State<HomeBody> {
         ),
       ),
     );
+  }
+
+  _getUser() {
+    BlocProvider.of<AuthBloc>(context).add(GetUserRequestEvent());
   }
 
   _getHomeData() {

@@ -30,10 +30,9 @@ class Application extends StatelessWidget {
             darkTheme: AppTheme.dark,
             themeMode: value.isDark ? ThemeMode.dark : ThemeMode.light,
             onGenerateRoute: (settings) => AppRoute.generate(settings),
-            // initialRoute: AuthManager.isLogedIn()
-            //     ? AppRouteNames.base
-            //     : AppRouteNames.selectAvatar,
-            initialRoute: AppRouteNames.register,
+            initialRoute: AuthManager.isLogedIn()
+                ? AppRouteNames.base
+                : AppRouteNames.login,
           );
         },
       ),

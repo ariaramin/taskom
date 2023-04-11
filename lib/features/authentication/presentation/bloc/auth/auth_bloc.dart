@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/di/di.dart';
+import 'package:taskom/features/authentication/domain/usecase/get_user.dart';
 import 'package:taskom/features/authentication/domain/usecase/login.dart';
 import 'package:taskom/features/authentication/domain/usecase/register.dart';
 import 'package:taskom/features/authentication/domain/usecase/update_user.dart';
@@ -10,6 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final Login _login = locator.get();
   final Register _register = locator.get();
   final UpdateUser _updateUser = locator.get();
+  final GetUser _getUser = locator.get();
 
   AuthBloc() : super(AuthInitState()) {
     on<LoginRequest>(
@@ -49,6 +51,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         );
         var response = await _updateUser.call(params);
         emit(AuthResponseState(response));
+      },
+    );
+
+    on<GetUserRequestEvent>(
+      (event, emit) async {
+        emit(AuthLoadingState());
+        var response = await _getUser.call(null);
+        emit(UserResponseState(response));
       },
     );
   }

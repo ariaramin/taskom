@@ -4,7 +4,7 @@ import 'package:taskom/di/di.dart';
 
 class ThemeProvider extends ChangeNotifier {
   final SharedPreferences _preferences = locator.get();
-  static const String THEME_KEY = "theme_key";
+  static const String themeKey = "theme_key";
   late bool _isDark;
 
   bool get isDark => _isDark;
@@ -20,11 +20,11 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   setTheme(bool value) {
-    _preferences.setBool(THEME_KEY, value);
+    _preferences.setBool(themeKey, value);
   }
 
   getTheme() {
-    _isDark = _preferences.getBool(THEME_KEY) ?? false;
+    _isDark = _preferences.getBool(themeKey) ?? false;
     notifyListeners();
   }
 }

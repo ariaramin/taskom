@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/theme/app_colors.dart';
+import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
 import 'package:taskom/features/home/presentation/widgets/home_body.dart';
 import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
@@ -16,6 +17,9 @@ class HomeScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => HomeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => AuthBloc(),
         ),
         BlocProvider(
           create: (context) => TaskBloc(),
