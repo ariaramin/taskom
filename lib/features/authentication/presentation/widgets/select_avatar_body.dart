@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/app_button.dart';
-import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
@@ -12,6 +11,7 @@ import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_event.dart';
 import 'package:taskom/features/authentication/presentation/bloc/profile/profile_state.dart';
+import 'package:taskom/features/authentication/presentation/widgets/avatar_item.dart';
 
 class SelectAvatarBody extends StatefulWidget {
   const SelectAvatarBody({
@@ -42,10 +42,8 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
         padding: const EdgeInsets.symmetric(horizontal: 18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(
-              height: 52,
-            ),
             const Text(
               "انتخاب آواتار",
               style: TextStyle(
@@ -54,9 +52,10 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
               ),
             ),
             const SizedBox(
-              height: 32,
+              height: 24,
             ),
-            Flexible(
+            SizedBox(
+              height: 428,
               child: BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is ProfileLoadingState) {
@@ -66,6 +65,7 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                     return state.avatarList
                         .fold((failure) => Center(child: Text(failure.message)),
                             (response) {
+                      _setAvatar(response);
                       return GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
@@ -99,6 +99,9 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 24,
+            ),
             BlocBuilder<AuthBloc, AuthState>(
               builder: (context, state) {
                 if (state is AuthResponseState) {
@@ -115,17 +118,44 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                     );
                   });
                 }
-                return AppButton(
-                  text: "انتخاب",
-                  onPressed: () {
-                    var userId = AuthManager.getUserId();
-                    BlocProvider.of<AuthBloc>(context)
-                        .add(UpdateUserRequestEvent(
-                      id: userId,
-                      avatar: _selectedAvatar,
-                    ));
-                  },
-                  isLoading: state is AuthLoadingState ? true : false,
+                return Column(
+                  children: [
+                    state is AuthResponseState
+                        ? state.response.fold(
+                            (failure) => Text(
+                              failure.message,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.errorColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            (message) => Text(
+                              message,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                color: AppColors.successColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    AppButton(
+                      text: "انتخاب",
+                      onPressed: () {
+                        var userId = AuthManager.getUserId();
+                        BlocProvider.of<AuthBloc>(context)
+                            .add(UpdateUserRequestEvent(
+                          id: userId,
+                          avatar: _selectedAvatar,
+                        ));
+                      },
+                      isLoading: state is AuthLoadingState ? true : false,
+                    ),
+                  ],
                 );
               },
             ),
@@ -138,44 +168,13 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
     );
   }
 
+  _setAvatar(List<Avatar> response) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _selectedAvatar = response[_selectedAvatarIndex];
+    });
+  }
+
   _getData() {
     BlocProvider.of<ProfileBloc>(context).add(AvatarListRequestEvent());
-  }
-}
-
-class AvatarItem extends StatelessWidget {
-  final int currentIndex;
-  final int selectedAvatarIndex;
-  final String? imageUrl;
-
-  const AvatarItem({
-    super.key,
-    required this.currentIndex,
-    required this.selectedAvatarIndex,
-    this.imageUrl,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 128,
-      height: 128,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(62),
-        border: selectedAvatarIndex == currentIndex
-            ? Border.all(
-                width: 4,
-                color: AppColors.primaryColor,
-              )
-            : null,
-        color: AppColors.secondaryColor,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(6),
-        child: CachedImage(
-          imageUrl: imageUrl,
-        ),
-      ),
-    );
   }
 }

@@ -1,6 +1,6 @@
 class Constants {
   // urls
-  static const String BASE_URL = "http://127.0.0.1:8090/api/";
+  static const String BASE_URL = "https://taskom.fly.dev/api/";
   static const String TASKS_RECORDS_URL = "collections/tasks/records";
   static const String CATEGORIES_RECORDS_URL = "collections/categories/records";
   static const String GALLERY_RECORDS_URL = "collections/gallery/records";
@@ -18,7 +18,8 @@ class Constants {
   static const String PROFILE_UPDATED_SUCCESS_MESSAGE =
       "پروفایل با موفقیت ویرایش شد.";
   static const String BLANK_ERROR_MESSAGE = "این فیلد نباید خالی باشد.";
-  static const String NO_TASK_MESSAGE = "تسکی برای امروز وجود ندارد";
+  static const String NO_TASK_FOR_TODAY_MESSAGE = "تسکی برای امروز وجود ندارد";
+  static const String NO_TASK_MESSAGE = "تسکی وجود ندارد";
   static const String NO_TASK_AT_THIS_TIME_MESSAGE =
       "تسکی در این بازه زمانی وجود ندارد";
   static const String NONE_TEXTUAL_ERROR_MESSAGE = "خطا محتوای متنی ندارد";

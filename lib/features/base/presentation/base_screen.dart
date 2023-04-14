@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:taskom/features/base/presentation/widgets/bottom_navigation.dart';
 import 'package:taskom/features/home/presentation/home_screen.dart';
 import 'package:taskom/features/settings/presentation/settings_screen.dart';
-import 'package:taskom/features/task/presentation/task_list_screen.dart';
+import 'package:taskom/features/task/presentation/presenters/task_list_screen.dart';
 
 class BaseScreen extends StatefulWidget {
   const BaseScreen({super.key});

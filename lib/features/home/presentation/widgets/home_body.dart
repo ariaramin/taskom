@@ -5,6 +5,7 @@ import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/components/timeline_tabbar.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_event.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
@@ -124,11 +125,10 @@ class _HomeBodyState extends State<HomeBody> {
     return BlocConsumer<TaskBloc, TaskState>(
       listener: (context, state) {
         if (state is TaskListResponse) {
-          setState(() {
-            if (_activeTasksCount == 0) {
-              _activeTasksCount =
-                  state.taskList.fold((l) => 0, (response) => response.length);
-            }
+          state.taskList.fold((l) => 0, (response) {
+            setState(() {
+              _activeTasksCount = response.length;
+            });
           });
         }
       },
@@ -149,7 +149,7 @@ class _HomeBodyState extends State<HomeBody> {
             return response.isEmpty
                 ? const SliverToBoxAdapter(
                     child: Center(
-                      child: Text(Constants.NO_TASK_MESSAGE),
+                      child: Text(Constants.NO_TASK_FOR_TODAY_MESSAGE),
                     ),
                   )
                 : TaskList(taskList: response);

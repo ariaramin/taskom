@@ -55,7 +55,7 @@ class SettingsTile extends StatelessWidget {
               child: trailingWidget ??
                   SvgPicture.asset(
                     AssetsManager.leftArrow,
-                    width: 10,
+                    width: 8,
                     color: Theme.of(context).colorScheme.onPrimary,
                   ),
             ),

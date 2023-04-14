@@ -49,6 +49,8 @@ class _AppTextFieldState extends State<AppTextField> {
         focusedBorder: _fieldFocusedBorder(),
         labelText: widget.labelText,
         labelStyle: TextStyle(
+          fontSize: 14,
+          fontWeight: FontWeight.bold,
           color: Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
         ),
         floatingLabelStyle: const TextStyle(
@@ -57,13 +59,14 @@ class _AppTextFieldState extends State<AppTextField> {
         errorBorder: _fieldErrorBorder(),
         focusedErrorBorder: _fieldErrorBorder(),
         errorStyle: const TextStyle(
+          fontSize: 12,
           color: AppColors.errorColor,
         ),
         prefixIcon: Padding(
           padding: const EdgeInsets.only(left: 10, right: 14),
           child: SvgPicture.asset(
             widget.iconUrl,
-            width: 22,
+            width: 20,
             color: focused
                 ? AppColors.primaryColor
                 : Theme.of(context).colorScheme.onPrimary.withOpacity(.5),
@@ -72,12 +75,16 @@ class _AppTextFieldState extends State<AppTextField> {
         errorText: widget.errorText,
         suffixIcon: widget.isPassword
             ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    passwordVisible = !passwordVisible;
+                  });
+                },
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 14),
+                  padding: const EdgeInsets.only(left: 16, right: 4),
                   child: passwordVisible
                       ? SvgPicture.asset(
                           AssetsManager.show,
-                          width: 18,
                           color: Theme.of(context)
                               .colorScheme
                               .onPrimary
@@ -85,18 +92,12 @@ class _AppTextFieldState extends State<AppTextField> {
                         )
                       : SvgPicture.asset(
                           AssetsManager.hidden,
-                          width: 18,
                           color: Theme.of(context)
                               .colorScheme
                               .onPrimary
                               .withOpacity(.5),
                         ),
                 ),
-                onTap: () {
-                  setState(() {
-                    passwordVisible = !passwordVisible;
-                  });
-                },
               )
             : null,
       ),

@@ -25,7 +25,7 @@ class TaskListBody extends StatefulWidget {
 }
 
 class _TaskListBodyState extends State<TaskListBody> {
-  final ValueNotifier<List<DateTime>?> markedDateList = ValueNotifier([]);
+  List<DateTime>? markedDateList;
   DateTime _selectedDate = DateTime.now();
   List<DateTime>? _selectedTimeRange;
   int _activeTasksCount = 0;
@@ -84,11 +84,10 @@ class _TaskListBodyState extends State<TaskListBody> {
       listener: (context, state) {
         if (state is TaskListResponse) {
           _setMarkedDateList(state.dateList);
-          setState(() {
-            if (_activeTasksCount == 0) {
-              _activeTasksCount =
-                  state.taskList.fold((l) => 0, (response) => response.length);
-            }
+          state.taskList.fold((l) => 0, (response) {
+            setState(() {
+              _activeTasksCount = response.length;
+            });
           });
         }
       },
@@ -109,7 +108,7 @@ class _TaskListBodyState extends State<TaskListBody> {
             return response.isEmpty
                 ? const SliverToBoxAdapter(
                     child: Center(
-                      child: Text(Constants.NO_TASK_MESSAGE),
+                      child: Text(Constants.NO_TASK_FOR_TODAY_MESSAGE),
                     ),
                   )
                 : TaskList(taskList: response);
@@ -137,21 +136,16 @@ class _TaskListBodyState extends State<TaskListBody> {
     return SliverPadding(
       padding: const EdgeInsets.only(top: 18),
       sliver: SliverToBoxAdapter(
-        child: ValueListenableBuilder(
-          valueListenable: markedDateList,
-          builder: (context, value, child) {
-            return DatePicker(
-              startDate: DateTime.now(),
-              endDate: DateTime.now().add(const Duration(days: 30)),
-              initialSelectedDate: DateTime.now(),
-              markedDates: value,
-              onSelectedDateChange: (date) {
-                setState(() {
-                  _selectedDate = date!;
-                });
-                _filterTasks(date!, _selectedTimeRange);
-              },
-            );
+        child: DatePicker(
+          startDate: DateTime.now(),
+          endDate: DateTime.now().add(const Duration(days: 30)),
+          initialSelectedDate: DateTime.now(),
+          markedDates: markedDateList,
+          onSelectedDateChange: (date) {
+            setState(() {
+              _selectedDate = date!;
+            });
+            _filterTasks(date!, _selectedTimeRange);
           },
         ),
       ),
@@ -159,8 +153,8 @@ class _TaskListBodyState extends State<TaskListBody> {
   }
 
   _setMarkedDateList(List<DateTime>? dateList) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      markedDateList.value = dateList;
+    setState(() {
+      markedDateList = dateList;
     });
   }
 

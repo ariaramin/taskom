@@ -1,8 +1,10 @@
 import 'package:taskom/config/constants/constants.dart';
 import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:taskom/config/extentions/datetime_extention.dart';
 
 class Avatar {
   final String? id;
@@ -31,8 +33,9 @@ class Avatar {
 
   Future<String> urlToFile() async {
     final response = await http.get(Uri.parse(main!));
-    final downloadsDirectory = await getDownloadsDirectory();
-    final file = File(join(downloadsDirectory?.path ?? "", 'avatar.png'));
+    final directory = await getApplicationDocumentsDirectory();
+    final file =
+        File(join(directory.path, "${DateTime.now().getGregorianDate()}.png"));
     file.writeAsBytesSync(response.bodyBytes);
     return file.path;
   }
