@@ -16,3 +16,8 @@ class TaskDateListRequestEvent extends TaskEvent {
   @override
   List<Object?> get props => [];
 }
+
+class TaskImageListRequestEvent extends TaskEvent {
+  @override
+  List<Object?> get props => [];
+}

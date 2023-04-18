@@ -25,4 +25,7 @@ class AssetsManager {
   static const String virusChecked = "$iconsPath/virusChecked.svg";
   static const String virus = "$iconsPath/virus.svg";
   static const String information = "$iconsPath/information.svg";
+  static const String text = "$iconsPath/text.svg";
+
+  static const String pin = "$iconsPath/pin.svg";
 }

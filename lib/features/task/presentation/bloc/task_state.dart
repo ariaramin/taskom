@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:taskom/features/task/data/models/gallery.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/config/util/failure.dart';
 
@@ -22,6 +23,17 @@ class TaskListResponse extends TaskState {
   TaskListResponse({
     required this.taskList,
     this.dateList,
+  });
+
+  @override
+  List<Object?> get props => [];
+}
+
+class TaskImageListResponse extends TaskState {
+  final Either<Failure, List<Gallery>> imageList;
+
+  TaskImageListResponse({
+    required this.imageList,
   });
 
   @override

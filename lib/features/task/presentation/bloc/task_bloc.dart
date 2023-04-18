@@ -2,12 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks_date.dart';
+import 'package:taskom/features/task/domain/usecase/get_gallery.dart';
 import 'package:taskom/features/task/presentation/bloc/task_event.dart';
 import 'package:taskom/features/task/presentation/bloc/task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final GetAllTasks _getAllTasks = locator.get();
   final GetAllTasksDate _getAllTasksDate = locator.get();
+  final GetGallery _getGallery = locator.get();
 
   TaskBloc() : super(TaskInitState()) {
     on<TaskListRequestEvent>(
@@ -19,6 +21,14 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
           taskList: taskList,
           dateList: dateList,
         ));
+      },
+    );
+
+    on<TaskImageListRequestEvent>(
+      (event, emit) async {
+        emit(TaskLoadingState());
+        var galleryList = await _getGallery.call(null);
+        emit(TaskImageListResponse(imageList: galleryList));
       },
     );
   }

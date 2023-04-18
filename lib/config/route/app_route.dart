@@ -5,6 +5,7 @@ import 'package:taskom/features/authentication/presentation/presenters/register_
 import 'package:taskom/features/authentication/presentation/presenters/select_avatar_screen.dart';
 import 'package:taskom/features/base/presentation/base_screen.dart';
 import 'package:taskom/features/search/presentation/search_screen.dart';
+import 'package:taskom/features/task/presentation/presenters/task_screen.dart';
 
 class AppRoute {
   static generate(RouteSettings settings) {
@@ -46,6 +47,14 @@ class AppRoute {
           builder: (context) => const Directionality(
             textDirection: TextDirection.rtl,
             child: SearchScreen(),
+          ),
+          settings: settings,
+        );
+      case AppRouteNames.editTask:
+        return MaterialPageRoute(
+          builder: (context) => const Directionality(
+            textDirection: TextDirection.rtl,
+            child: TaskScreen(),
           ),
           settings: settings,
         );

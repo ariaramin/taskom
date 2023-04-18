@@ -24,25 +24,21 @@ class LoginTextFields extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: AppTextField(
-                controller: emailController,
-                labelText: "ایمیل",
-                iconUrl: AssetsManager.message,
-                errorText: _getFieldError(state, emailController, "email"),
-              ),
+            AppTextField(
+              controller: emailController,
+              labelText: "ایمیل",
+              iconUrl: AssetsManager.message,
+              errorText: _getFieldError(state, emailController, "email"),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: AppTextField(
-                controller: passwordController,
-                labelText: "رمز عبور",
-                iconUrl: AssetsManager.key,
-                isPassword: true,
-                errorText:
-                    _getFieldError(state, passwordController, "password"),
-              ),
+            const SizedBox(
+              height: 24,
+            ),
+            AppTextField(
+              controller: passwordController,
+              labelText: "رمز عبور",
+              iconUrl: AssetsManager.key,
+              isPassword: true,
+              errorText: _getFieldError(state, passwordController, "password"),
             ),
             state is AuthResponseState
                 ? state.response.fold(

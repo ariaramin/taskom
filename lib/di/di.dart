@@ -16,6 +16,10 @@ import 'package:taskom/features/authentication/domain/usecase/get_user.dart';
 import 'package:taskom/features/authentication/domain/usecase/login.dart';
 import 'package:taskom/features/authentication/domain/usecase/register.dart';
 import 'package:taskom/features/authentication/domain/usecase/update_user.dart';
+import 'package:taskom/features/category/data/datasource/category_datasource.dart';
+import 'package:taskom/features/category/data/datasource/category_datasource_impl.dart';
+import 'package:taskom/features/category/data/repository/category_repository.dart';
+import 'package:taskom/features/category/data/repository/category_repository_impl.dart';
 import 'package:taskom/features/task/data/datasource/task_datasource.dart';
 import 'package:taskom/features/task/data/datasource/task_datasource_impl.dart';
 import 'package:taskom/features/task/data/datasource/task_detail_datasource.dart';
@@ -24,9 +28,10 @@ import 'package:taskom/features/task/data/repository/task_detail_repository.dart
 import 'package:taskom/features/task/data/repository/task_detail_repository_impl.dart';
 import 'package:taskom/features/task/data/repository/task_repository.dart';
 import 'package:taskom/features/task/data/repository/task_repository_impl.dart';
-import 'package:taskom/features/task/domain/usecase/get_all_categories.dart';
+import 'package:taskom/features/category/domain/usecase/get_all_categories.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks_date.dart';
+import 'package:taskom/features/task/domain/usecase/get_gallery.dart';
 
 var locator = GetIt.instance;
 
@@ -47,6 +52,7 @@ Future initGetIt() async {
   locator.registerFactory<TaskDatasource>(() => TaskDatasourceImpl());
   locator
       .registerFactory<TaskDetailDatasource>(() => TaskDetailDatasourceImpl());
+  locator.registerFactory<CategoryDatasource>(() => CategoryDatasourceImpl());
   locator.registerFactory<ProfileDatasource>(() => ProfileDatasourceImpl());
   locator.registerFactory<AuthDatasource>(() => AuthDatasourceImpl());
 
@@ -54,6 +60,7 @@ Future initGetIt() async {
   locator.registerFactory<TaskRepository>(() => TaskRepositoryImpl());
   locator
       .registerFactory<TaskDetailRepository>(() => TaskDetailRepositoryImpl());
+  locator.registerFactory<CategoryRepository>(() => CategoryRepositoryImpl());
   locator.registerFactory<ProfileRepository>(() => ProfileRepositoryImpl());
   locator.registerFactory<AuthRepository>(() => AuthRepositoryImpl());
 
@@ -66,4 +73,5 @@ Future initGetIt() async {
   locator.registerFactory<Register>(() => Register());
   locator.registerFactory<UpdateUser>(() => UpdateUser());
   locator.registerFactory<GetUser>(() => GetUser());
+  locator.registerFactory<GetGallery>(() => GetGallery());
 }

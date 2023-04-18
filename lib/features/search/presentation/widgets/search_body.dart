@@ -5,7 +5,7 @@ import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/features/search/presentation/bloc/search_bloc.dart';
 import 'package:taskom/features/search/presentation/bloc/search_event.dart';
 import 'package:taskom/features/search/presentation/bloc/search_state.dart';
-import 'package:taskom/features/search/presentation/widgets/custom_back_button.dart';
+import 'package:taskom/config/components/custom_back_button.dart';
 import 'package:taskom/features/search/presentation/widgets/search_field.dart';
 
 class SearchBody extends StatefulWidget {
@@ -29,18 +29,21 @@ class _SearchBodyState extends State<SearchBody> {
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 18),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const CustomBackButton(),
-                Expanded(
-                  child: SearchField(
-                    onChange: (value) {
-                      _getData(value);
-                    },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 14),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const CustomBackButton(),
+                  Expanded(
+                    child: SearchField(
+                      onChange: (value) {
+                        _getData(value);
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

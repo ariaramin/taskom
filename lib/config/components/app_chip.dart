@@ -4,19 +4,21 @@ import 'package:taskom/config/theme/app_colors.dart';
 class AppChip extends StatelessWidget {
   final String title;
   final Widget? widget;
+  final Function()? onTap;
   final bool isLight;
 
   const AppChip({
     Key? key,
     required this.title,
     this.widget,
+    this.onTap,
     this.isLight = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
           color: isLight ? AppColors.secondaryColor : AppColors.primaryColor,

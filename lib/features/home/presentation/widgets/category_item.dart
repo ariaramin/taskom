@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:taskom/features/task/data/models/category.dart';
+import 'package:taskom/features/category/data/models/category.dart';
 
 class CategoryItem extends StatelessWidget {
   final Category category;

@@ -26,34 +26,30 @@ class RegisterTextFields extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: AppTextField(
-                controller: fullNameController,
-                labelText: "نام و نام خانوادگی",
-                iconUrl: AssetsManager.user,
-                errorText: _getFieldError(state, fullNameController, "name"),
-              ),
+            AppTextField(
+              controller: fullNameController,
+              labelText: "نام و نام خانوادگی",
+              iconUrl: AssetsManager.user,
+              errorText: _getFieldError(state, fullNameController, "name"),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: AppTextField(
-                controller: emailController,
-                labelText: "ایمیل",
-                iconUrl: AssetsManager.message,
-                errorText: _getFieldError(state, emailController, "email"),
-              ),
+            const SizedBox(
+              height: 24,
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 18),
-              child: AppTextField(
-                controller: passwordController,
-                labelText: "رمز عبور",
-                iconUrl: AssetsManager.key,
-                isPassword: true,
-                errorText:
-                    _getFieldError(state, passwordController, "password"),
-              ),
+            AppTextField(
+              controller: emailController,
+              labelText: "ایمیل",
+              iconUrl: AssetsManager.message,
+              errorText: _getFieldError(state, emailController, "email"),
+            ),
+            const SizedBox(
+              height: 24,
+            ),
+            AppTextField(
+              controller: passwordController,
+              labelText: "رمز عبور",
+              iconUrl: AssetsManager.key,
+              isPassword: true,
+              errorText: _getFieldError(state, passwordController, "password"),
             ),
             state is AuthResponseState
                 ? state.response.fold(

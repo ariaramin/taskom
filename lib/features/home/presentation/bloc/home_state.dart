@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:taskom/features/task/data/models/category.dart';
+import 'package:taskom/features/category/data/models/category.dart';
 import 'package:taskom/config/util/failure.dart';
 
 abstract class HomeState extends Equatable {}

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/features/home/presentation/widgets/category_item.dart';
-import 'package:taskom/features/task/data/models/category.dart';
+import 'package:taskom/features/category/data/models/category.dart';
 
 class CategoryList extends StatelessWidget {
   final List<Category> categoryList;
