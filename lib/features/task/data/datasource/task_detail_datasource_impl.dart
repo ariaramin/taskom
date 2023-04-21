@@ -24,26 +24,4 @@ class TaskDetailDatasourceImpl extends TaskDetailDatasource {
       rethrow;
     }
   }
-
-  @override
-  Future<Gallery> getGalleryItem(String id) async {
-    try {
-      var response = await _dio.get(
-        Constants.GALLERY_RECORDS_URL,
-        queryParameters: {
-          "filter": "id='$id'",
-        },
-      );
-      return response.data['items']
-          .map<Gallery>((jsonObject) => Gallery.fromMapJson(jsonObject))
-          .toList()[0];
-    } on DioError catch (error) {
-      throw ApiException(
-        code: error.response?.statusCode,
-        message: error.response?.data["message"],
-      );
-    } catch (_) {
-      rethrow;
-    }
-  }
 }

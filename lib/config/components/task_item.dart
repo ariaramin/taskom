@@ -4,6 +4,7 @@ import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:taskom/config/components/app_chip.dart';
 import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/constants/assets_manager.dart';
+import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
@@ -121,6 +122,13 @@ class _TaskItemState extends State<TaskItem> {
             width: 18,
             color: AppColors.primaryColor,
           ),
+          onTap: () {
+            Navigator.pushNamed(
+              context,
+              AppRouteNames.editTask,
+              arguments: widget.task,
+            );
+          },
         ),
         const SizedBox(
           width: 12,

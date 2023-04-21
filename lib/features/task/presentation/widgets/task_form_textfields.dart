@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/components/app_textfield.dart';
 import 'package:taskom/config/constants/assets_manager.dart';
+import 'package:taskom/config/constants/constants.dart';
 
 class TaskFormTextFields extends StatelessWidget {
-  const TaskFormTextFields({super.key});
+  final TextEditingController titleEditingController;
+  final TextEditingController noteEditingController;
+  final bool titleHasError;
+
+  const TaskFormTextFields({
+    super.key,
+    required this.titleEditingController,
+    required this.noteEditingController,
+    this.titleHasError = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,22 +22,29 @@ class TaskFormTextFields extends StatelessWidget {
       child: Column(
         children: [
           AppTextField(
-            // controller: emailController,
+            controller: titleEditingController,
             labelText: "عنوان",
             iconUrl: AssetsManager.text,
-            // errorText: _getFieldError(state, emailController, "email"),
+            errorText:
+                titleHasError ? _getFieldError(titleEditingController) : null,
           ),
           const SizedBox(
             height: 24,
           ),
           AppTextField(
-            // controller: passwordController,
+            controller: noteEditingController,
             labelText: "یادداشت",
             iconUrl: AssetsManager.pin,
-            // errorText: _getFieldError(state, passwordController, "password"),
           ),
         ],
       ),
     );
+  }
+
+  String? _getFieldError(TextEditingController controller) {
+    if (controller.text.isEmpty) {
+      return Constants.BLANK_ERROR_MESSAGE;
+    }
+    return null;
   }
 }

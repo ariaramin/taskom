@@ -8,7 +8,14 @@ import 'package:taskom/features/category/presentation/bloc/category_bloc.dart';
 import 'package:taskom/features/category/presentation/bloc/category_state.dart';
 
 class TaskCategoryList extends StatefulWidget {
-  const TaskCategoryList({super.key});
+  final String? currentCategoryId;
+  final Function(String categoryId) onCategoryTaped;
+
+  const TaskCategoryList({
+    super.key,
+    this.currentCategoryId,
+    required this.onCategoryTaped,
+  });
 
   @override
   State<TaskCategoryList> createState() => _TaskCategoryListState();
@@ -30,7 +37,20 @@ class _TaskCategoryListState extends State<TaskCategoryList> {
           const SizedBox(
             height: 12,
           ),
-          BlocBuilder<CategoryBloc, CategoryState>(
+          BlocConsumer<CategoryBloc, CategoryState>(
+            listener: (context, state) {
+              if (state is CategoryListResponse) {
+                state.categoryList.fold((l) => null, (response) {
+                  var currentIndex = response.indexWhere(
+                      (element) => element.id == widget.currentCategoryId);
+                  setState(() {
+                    currentIndex != -1
+                        ? _selectedCategory = currentIndex
+                        : _selectedCategory = 0;
+                  });
+                });
+              }
+            },
             builder: (context, state) {
               if (state is CategoryLoadingState) {
                 return const Center(
@@ -43,6 +63,7 @@ class _TaskCategoryListState extends State<TaskCategoryList> {
                     return Center(child: Text(failure.message));
                   },
                   (response) {
+                    widget.onCategoryTaped(response[_selectedCategory].id!);
                     return SizedBox(
                       height: 88,
                       child: ListView.builder(
@@ -56,6 +77,7 @@ class _TaskCategoryListState extends State<TaskCategoryList> {
                                 setState(() {
                                   _selectedCategory = index;
                                 });
+                                widget.onCategoryTaped(response[index].id!);
                               },
                               child: Column(
                                 children: [

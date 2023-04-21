@@ -25,9 +25,9 @@ class TaskModel {
     return TaskModel(
       id: jsonObject['id'],
       userId: jsonObject['user'],
-      thumbnail:
-          '${Constants.BASE_URL}files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
-      // thumbnail: jsonObject['thumbnail'],
+      // thumbnail:
+      //     '${Constants.BASE_URL}files/${jsonObject['collectionId']}/${jsonObject['id']}/${jsonObject['thumbnail']}',
+      thumbnail: jsonObject['thumbnail'],
       title: jsonObject['title'],
       note: jsonObject['note'],
       categoryId: jsonObject['category'],
@@ -37,12 +37,13 @@ class TaskModel {
   }
 
   Map<String, dynamic> toJson() => {
-        'userId': userId,
+        'id': id,
+        'user': userId,
         'thumbnail': thumbnail,
         'title': title,
         'note': note,
-        'categoryId': categoryId,
+        'category': categoryId,
         'isDone': isDone,
-        'dateTime': dateTime?.toIso8601String(),
+        'date': dateTime?.toIso8601String(),
       };
 }

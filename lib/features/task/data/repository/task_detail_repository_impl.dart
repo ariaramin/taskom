@@ -21,16 +21,4 @@ class TaskDetailRepositoryImpl extends TaskDetailRepository {
       return left(Failure.connectionFailure());
     }
   }
-
-  @override
-  Future<Either<Failure, Gallery>> getGalleryItem(String id) async {
-    try {
-      var response = await _datasource.getGalleryItem(id);
-      return right(response);
-    } on ApiException catch (error) {
-      return left(Failure.serverFailure(error.message));
-    } on SocketException {
-      return left(Failure.connectionFailure());
-    }
-  }
 }

@@ -17,9 +17,9 @@ import 'package:taskom/features/home/presentation/widgets/welcome_section.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
-import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
-import 'package:taskom/features/task/presentation/bloc/task_event.dart';
-import 'package:taskom/features/task/presentation/bloc/task_state.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_event.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_state.dart';
 
 class HomeBody extends StatefulWidget {
   const HomeBody({

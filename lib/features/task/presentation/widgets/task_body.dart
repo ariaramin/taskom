@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:taskom/config/components/app_button.dart';
+import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 import 'package:taskom/features/category/presentation/bloc/category_bloc.dart';
 import 'package:taskom/features/category/presentation/bloc/category_event.dart';
-import 'package:taskom/features/task/presentation/bloc/task_bloc.dart';
-import 'package:taskom/features/task/presentation/bloc/task_event.dart';
+import 'package:taskom/features/task/data/models/gallery.dart';
+import 'package:taskom/features/task/data/models/task.dart';
+import 'package:taskom/features/task/domain/params/task_params.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_event.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_state.dart';
+import 'package:taskom/features/task/presentation/bloc/task_detail/task_detail_bloc.dart';
+import 'package:taskom/features/task/presentation/bloc/task_detail/task_detail_event.dart';
 import 'package:taskom/features/task/presentation/widgets/appbar_title.dart';
 import 'package:taskom/features/task/presentation/widgets/task_category_list.dart';
 import 'package:taskom/features/task/presentation/widgets/task_datetime.dart';
@@ -12,17 +20,27 @@ import 'package:taskom/features/task/presentation/widgets/task_form_textfields.d
 import 'package:taskom/features/task/presentation/widgets/task_image_list.dart';
 
 class TaskBody extends StatefulWidget {
-  const TaskBody({super.key});
+  final TaskModel? taskModel;
+  const TaskBody({super.key, this.taskModel});
 
   @override
   State<TaskBody> createState() => _TaskBodyState();
 }
 
 class _TaskBodyState extends State<TaskBody> {
+  final TextEditingController _titleEditingController = TextEditingController();
+  final TextEditingController _noteEditingController = TextEditingController();
+  bool _titleHasError = false;
+  String _selectedCategoryId = "";
+  TimeOfDay _selectedTime = TimeOfDay.now();
+  Jalali _selectedDate = Jalali.now();
+  late Gallery _selectedImage;
+
   @override
   void initState() {
     BlocProvider.of<CategoryBloc>(context).add(CategoryListRequestEvent());
-    BlocProvider.of<TaskBloc>(context).add(TaskImageListRequestEvent());
+    BlocProvider.of<TaskDetailBloc>(context).add(TaskImageListRequestEvent());
+    _setTaskData();
     super.initState();
   }
 
@@ -31,26 +49,49 @@ class _TaskBodyState extends State<TaskBody> {
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
-        const CustomScrollView(
+        CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: AppBarTitle(
                 title: "تسکام",
               ),
             ),
             SliverToBoxAdapter(
-              child: TaskFormTextFields(),
+              child: TaskFormTextFields(
+                titleEditingController: _titleEditingController,
+                noteEditingController: _noteEditingController,
+                titleHasError: _titleHasError,
+              ),
             ),
             SliverToBoxAdapter(
-              child: TaskCategoryList(),
+              child: TaskCategoryList(
+                currentCategoryId: widget.taskModel?.categoryId,
+                onCategoryTaped: (String selectedCategoryId) {
+                  _selectedCategoryId = selectedCategoryId;
+                },
+              ),
             ),
             SliverToBoxAdapter(
-              child: TaskDatetime(),
+              child: TaskDatetime(
+                currentDate: _selectedDate,
+                currentTime: _selectedTime,
+                onDateChanged: (selectedDate) {
+                  _selectedDate = selectedDate;
+                },
+                onTimeChanged: (selectedTime) {
+                  _selectedTime = selectedTime;
+                },
+              ),
             ),
             SliverToBoxAdapter(
-              child: TaskImageList(),
+              child: TaskImageList(
+                currentImage: widget.taskModel?.thumbnail,
+                onImageTaped: (Gallery selectedImage) {
+                  _selectedImage = selectedImage;
+                },
+              ),
             ),
-            SliverPadding(padding: EdgeInsets.only(bottom: 82)),
+            const SliverPadding(padding: EdgeInsets.only(bottom: 82)),
           ],
         ),
         Padding(
@@ -59,12 +100,79 @@ class _TaskBodyState extends State<TaskBody> {
             right: 14,
             bottom: 18,
           ),
-          child: AppButton(
-            text: "ثبت",
-            onPressed: () {},
+          child: BlocConsumer<TaskBloc, TaskState>(
+            listener: (context, state) {
+              if (state is TaskResponse) {
+                state.task.fold((failure) {
+                  print(failure.message);
+                }, (r) {
+                  Navigator.pop(context);
+                });
+              }
+            },
+            builder: (context, state) {
+              return AppButton(
+                text: "ثبت",
+                isLoading: state is TaskLoadingState ? true : false,
+                onPressed: () => _saveTask(),
+              );
+            },
           ),
         ),
       ],
     );
+  }
+
+  _saveTask() {
+    if (_titleEditingController.text.isNotEmpty &&
+        _selectedCategoryId.isNotEmpty) {
+      setState(() {
+        _titleHasError = false;
+      });
+      var task = _getNewTask();
+      if (widget.taskModel != null) {
+        BlocProvider.of<TaskBloc>(context).add(
+            UpdateTaskRequestEvent(taskParams: TaskParams(taskModel: task)));
+      } else {
+        BlocProvider.of<TaskBloc>(context)
+            .add(AddTaskRequestEvent(taskParams: TaskParams(taskModel: task)));
+      }
+    } else {
+      setState(() {
+        _titleHasError = true;
+      });
+    }
+  }
+
+  TaskModel _getNewTask() {
+    return TaskModel(
+      id: widget.taskModel != null ? widget.taskModel!.id : null,
+      userId: AuthManager.getUserId(),
+      title: _titleEditingController.text.toString(),
+      note: _noteEditingController.text.toString(),
+      categoryId: _selectedCategoryId,
+      thumbnail: _selectedImage.image,
+      dateTime: DateTime(
+          _selectedDate.toGregorian().year,
+          _selectedDate.toGregorian().month,
+          _selectedDate.toGregorian().day,
+          _selectedTime.hour,
+          _selectedTime.minute),
+      isDone: widget.taskModel != null ? widget.taskModel!.isDone : false,
+    );
+  }
+
+  _setTaskData() {
+    if (widget.taskModel != null) {
+      _titleEditingController.value =
+          TextEditingValue(text: widget.taskModel!.title!);
+      _noteEditingController.value =
+          TextEditingValue(text: widget.taskModel!.note!);
+      var date = widget.taskModel!.dateTime!;
+      setState(() {
+        _selectedDate = date.toJalali();
+        _selectedTime = TimeOfDay(hour: date.hour, minute: date.minute);
+      });
+    }
   }
 }

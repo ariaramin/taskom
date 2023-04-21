@@ -29,9 +29,11 @@ import 'package:taskom/features/task/data/repository/task_detail_repository_impl
 import 'package:taskom/features/task/data/repository/task_repository.dart';
 import 'package:taskom/features/task/data/repository/task_repository_impl.dart';
 import 'package:taskom/features/category/domain/usecase/get_all_categories.dart';
+import 'package:taskom/features/task/domain/usecase/add_task.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks_date.dart';
 import 'package:taskom/features/task/domain/usecase/get_gallery.dart';
+import 'package:taskom/features/task/domain/usecase/update_task.dart';
 
 var locator = GetIt.instance;
 
@@ -74,4 +76,6 @@ Future initGetIt() async {
   locator.registerFactory<UpdateUser>(() => UpdateUser());
   locator.registerFactory<GetUser>(() => GetUser());
   locator.registerFactory<GetGallery>(() => GetGallery());
+  locator.registerFactory<AddTask>(() => AddTask());
+  locator.registerFactory<UpdateTask>(() => UpdateTask());
 }

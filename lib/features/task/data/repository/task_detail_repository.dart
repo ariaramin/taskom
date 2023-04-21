@@ -4,6 +4,4 @@ import 'package:taskom/config/util/failure.dart';
 
 abstract class TaskDetailRepository {
   Future<Either<Failure, List<Gallery>>> getGallery();
-
-  Future<Either<Failure, Gallery>> getGalleryItem(String id);
 }

@@ -93,7 +93,7 @@ class TaskDatasourceImpl extends TaskDatasource {
     try {
       if (AuthManager.isLogedIn()) {
         await _dio.patch(
-          "${Constants.TASKS_RECORDS_URL}:${taskModel.id}",
+          "${Constants.TASKS_RECORDS_URL}/${taskModel.id}",
           options: Options(
             headers: {"Authorization": "Bearer ${AuthManager.getToken()}"},
           ),
