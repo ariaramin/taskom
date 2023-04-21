@@ -33,7 +33,6 @@ class Application extends StatelessWidget {
             initialRoute: AuthManager.isLogedIn()
                 ? AppRouteNames.base
                 : AppRouteNames.login,
-            // initialRoute: AppRouteNames.editTask,
           );
         },
       ),

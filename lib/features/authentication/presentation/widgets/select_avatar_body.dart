@@ -1,8 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/app_button.dart';
+import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/route/app_route_names.dart';
-import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
 import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
@@ -102,7 +103,30 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
             const SizedBox(
               height: 24,
             ),
-            BlocBuilder<AuthBloc, AuthState>(
+            BlocConsumer<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is AuthResponseState) {
+                  state.response.fold((failure) {
+                    final snackBar = Constants.getSnackBar(
+                      title: Constants.ERROR_MESSAGE,
+                      message: failure.message,
+                      type: ContentType.failure,
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  }, (response) {
+                    final snackBar = Constants.getSnackBar(
+                      title: Constants.SUCCESS_MESSAGE,
+                      message: response,
+                      type: ContentType.success,
+                    );
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  });
+                }
+              },
               builder: (context, state) {
                 if (state is AuthResponseState) {
                   state.response.fold((l) => null, (r) async {
@@ -118,44 +142,17 @@ class _SelectAvatarBodyState extends State<SelectAvatarBody> {
                     );
                   });
                 }
-                return Column(
-                  children: [
-                    state is AuthResponseState
-                        ? state.response.fold(
-                            (failure) => Text(
-                              failure.message,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.errorColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            (message) => Text(
-                              message,
-                              style: const TextStyle(
-                                fontSize: 12,
-                                color: AppColors.successColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    AppButton(
-                      text: "انتخاب",
-                      onPressed: () {
-                        var userId = AuthManager.getUserId();
-                        BlocProvider.of<AuthBloc>(context)
-                            .add(UpdateUserRequestEvent(
-                          id: userId,
-                          avatar: _selectedAvatar,
-                        ));
-                      },
-                      isLoading: state is AuthLoadingState ? true : false,
-                    ),
-                  ],
+                return AppButton(
+                  text: "انتخاب",
+                  onPressed: () {
+                    var userId = AuthManager.getUserId();
+                    BlocProvider.of<AuthBloc>(context)
+                        .add(UpdateUserRequestEvent(
+                      id: userId,
+                      avatar: _selectedAvatar,
+                    ));
+                  },
+                  isLoading: state is AuthLoadingState ? true : false,
                 );
               },
             ),

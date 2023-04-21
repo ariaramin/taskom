@@ -1,7 +1,9 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:taskom/config/components/app_button.dart';
+import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 import 'package:taskom/features/category/presentation/bloc/category_bloc.dart';
 import 'package:taskom/features/category/presentation/bloc/category_event.dart';
@@ -52,9 +54,7 @@ class _TaskBodyState extends State<TaskBody> {
         CustomScrollView(
           slivers: [
             const SliverToBoxAdapter(
-              child: AppBarTitle(
-                title: "تسکام",
-              ),
+              child: AppBarTitle(title: "تسکام"),
             ),
             SliverToBoxAdapter(
               child: TaskFormTextFields(
@@ -104,8 +104,23 @@ class _TaskBodyState extends State<TaskBody> {
             listener: (context, state) {
               if (state is TaskResponse) {
                 state.task.fold((failure) {
-                  print(failure.message);
-                }, (r) {
+                  final snackBar = Constants.getSnackBar(
+                    title: Constants.ERROR_MESSAGE,
+                    message: failure.message,
+                    type: ContentType.failure,
+                  );
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }, (response) {
+                  final snackBar = Constants.getSnackBar(
+                    title: Constants.SUCCESS_MESSAGE,
+                    message: response,
+                    type: ContentType.success,
+                  );
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
                   Navigator.pop(context);
                 });
               }
@@ -146,10 +161,10 @@ class _TaskBodyState extends State<TaskBody> {
 
   TaskModel _getNewTask() {
     return TaskModel(
-      id: widget.taskModel != null ? widget.taskModel!.id : null,
+      id: widget.taskModel?.id,
       userId: AuthManager.getUserId(),
-      title: _titleEditingController.text.toString(),
-      note: _noteEditingController.text.toString(),
+      title: _titleEditingController.text,
+      note: _noteEditingController.text,
       categoryId: _selectedCategoryId,
       thumbnail: _selectedImage.image,
       dateTime: DateTime(
@@ -158,20 +173,25 @@ class _TaskBodyState extends State<TaskBody> {
           _selectedDate.toGregorian().day,
           _selectedTime.hour,
           _selectedTime.minute),
-      isDone: widget.taskModel != null ? widget.taskModel!.isDone : false,
+      isDone: widget.taskModel?.isDone ?? false,
     );
   }
 
   _setTaskData() {
     if (widget.taskModel != null) {
-      _titleEditingController.value =
-          TextEditingValue(text: widget.taskModel!.title!);
-      _noteEditingController.value =
-          TextEditingValue(text: widget.taskModel!.note!);
+      _titleEditingController.value = TextEditingValue(
+        text: widget.taskModel!.title!,
+      );
+      _noteEditingController.value = TextEditingValue(
+        text: widget.taskModel!.note!,
+      );
       var date = widget.taskModel!.dateTime!;
       setState(() {
         _selectedDate = date.toJalali();
-        _selectedTime = TimeOfDay(hour: date.hour, minute: date.minute);
+        _selectedTime = TimeOfDay(
+          hour: date.hour,
+          minute: date.minute,
+        );
       });
     }
   }

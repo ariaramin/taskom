@@ -51,7 +51,7 @@ class AppRoute {
           ),
           settings: settings,
         );
-      case AppRouteNames.editTask:
+      case AppRouteNames.task:
         return MaterialPageRoute(
           builder: (context) => Directionality(
             textDirection: TextDirection.rtl,

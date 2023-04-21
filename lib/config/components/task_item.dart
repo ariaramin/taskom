@@ -125,7 +125,7 @@ class _TaskItemState extends State<TaskItem> {
           onTap: () {
             Navigator.pushNamed(
               context,
-              AppRouteNames.editTask,
+              AppRouteNames.task,
               arguments: widget.task,
             );
           },

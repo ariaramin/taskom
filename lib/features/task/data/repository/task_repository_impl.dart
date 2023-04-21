@@ -41,7 +41,7 @@ class TaskRepositoryImpl extends TaskRepository {
   Future<Either<Failure, String>> addTask(TaskModel taskModel) async {
     try {
       await _datasource.addTask(taskModel);
-      return right(Constants.TASK_ADDED_MESSAGE);
+      return right(Constants.TASK_SAVED_MESSAGE);
     } on ApiException catch (error) {
       return left(Failure.serverFailure(error.message));
     } on SocketException {
@@ -53,7 +53,7 @@ class TaskRepositoryImpl extends TaskRepository {
   Future<Either<Failure, String>> updateTask(TaskModel taskModel) async {
     try {
       await _datasource.updateTask(taskModel);
-      return right(Constants.TASK_UPDATED_MESSAGE);
+      return right(Constants.TASK_SAVED_MESSAGE);
     } on ApiException catch (error) {
       return left(Failure.serverFailure(error.message));
     } on SocketException {

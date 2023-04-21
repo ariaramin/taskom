@@ -1,3 +1,7 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:flutter/material.dart';
+import 'package:taskom/config/theme/app_colors.dart';
+
 class Constants {
   // urls
   static const String BASE_URL = "https://taskom.fly.dev/api/";
@@ -24,8 +28,28 @@ class Constants {
       "تسکی در این بازه زمانی وجود ندارد";
   static const String NONE_TEXTUAL_ERROR_MESSAGE = "خطا محتوای متنی ندارد";
   static const String CONNECTION_ERROR_MESSAGE = "اتصال به شبکه ناموفق بود";
-  static const String TASK_ADDED_MESSAGE = "تسک مورد نظر با موفقیت اضافه شد";
-  static const String TASK_UPDATED_MESSAGE = "تسک مورد نظر با موفقیت ویرایش شد";
+  static const String TASK_SAVED_MESSAGE = "تسک مورد نظر با موفقیت ثبت شد";
   static const String TASK_DELETED_MESSAGE = "تسک مورد نظر با موفقیت حذف شد";
   static const String ERROR_MESSAGE = "مشکلی پیش آمده است";
+  static const String SUCCESS_MESSAGE = "عملیات موفقیت آمیز بود";
+
+  static SnackBar getSnackBar({
+    required String title,
+    required String message,
+    required ContentType type,
+  }) {
+    return SnackBar(
+      elevation: 0,
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: Colors.transparent,
+      content: AwesomeSnackbarContent(
+        title: title,
+        message: message,
+        contentType: type,
+        color: type == ContentType.success
+            ? AppColors.successColor
+            : AppColors.errorColor,
+      ),
+    );
+  }
 }
