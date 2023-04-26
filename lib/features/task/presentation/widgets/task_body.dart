@@ -103,7 +103,7 @@ class _TaskBodyState extends State<TaskBody> {
           child: BlocConsumer<TaskBloc, TaskState>(
             listener: (context, state) {
               if (state is TaskResponse) {
-                state.task.fold((failure) {
+                state.response.fold((failure) {
                   final snackBar = Constants.getSnackBar(
                     title: Constants.ERROR_MESSAGE,
                     message: failure.message,

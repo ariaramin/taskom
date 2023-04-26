@@ -29,9 +29,9 @@ class TaskListResponse extends TaskState {
 }
 
 class TaskResponse extends TaskState {
-  final Either<Failure, String> task;
+  final Either<Failure, String> response;
 
-  TaskResponse({required this.task});
+  TaskResponse({required this.response});
 
   @override
   List<Object?> get props => [];

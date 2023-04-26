@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
 import 'package:taskom/config/components/app_chip.dart';
@@ -7,6 +8,9 @@ import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/task/data/models/task.dart';
+import 'package:taskom/features/task/domain/params/task_params.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
+import 'package:taskom/features/task/presentation/bloc/task/task_event.dart';
 
 class TaskItem extends StatefulWidget {
   final TaskModel task;
@@ -32,7 +36,12 @@ class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        widget.task.isDone = !widget.task.isDone!;
+        BlocProvider.of<TaskBloc>(context).add(UpdateTaskRequestEvent(
+            taskParams: TaskParams(taskModel: widget.task)));
+        _isChecked = !_isChecked;
+      },
       child: Container(
         width: double.infinity,
         height: 138,

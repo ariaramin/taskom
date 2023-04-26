@@ -17,11 +17,10 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: IndexedStack(
-      //   index: _selectedItem,
-      //   children: _getScreens(),
-      // ),
-      body: _getScreens()[_selectedItem],
+      body: IndexedStack(
+        index: _selectedItem,
+        children: _getScreens(),
+      ),
       bottomNavigationBar: BottomNavigation(
         currentIndex: _selectedItem,
         onTap: (value) {

@@ -36,12 +36,6 @@ class _HomeBodyState extends State<HomeBody> {
   }
 
   @override
-  void didUpdateWidget(covariant HomeBody oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
-  }
-
-  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
       onRefresh: () async {

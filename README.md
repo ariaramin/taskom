@@ -1,6 +1,8 @@
 # taskom
 
-![image](preview/preview.png)
+| Light Mode   | Dark Mode |
+| ------------- | ------------- |
+| ![image](preview/taskom.png)   | ![image](preview/taskom-dark.png)  |
 
 ## Getting Started
 

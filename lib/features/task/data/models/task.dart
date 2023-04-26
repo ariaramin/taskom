@@ -1,5 +1,3 @@
-import 'package:taskom/config/constants/constants.dart';
-
 class TaskModel {
   final String? id;
   final String? userId;
@@ -7,7 +5,7 @@ class TaskModel {
   final String? title;
   final String? note;
   final String? categoryId;
-  final bool? isDone;
+  bool? isDone;
   final DateTime? dateTime;
 
   TaskModel({

@@ -57,7 +57,7 @@ class _TaskDatetimeState extends State<TaskDatetime> {
                   widget: SvgPicture.asset(
                     AssetsManager.calendar,
                     width: 18,
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                   onTap: () async {
                     var picker = await showPersianDatePicker(
@@ -80,7 +80,7 @@ class _TaskDatetimeState extends State<TaskDatetime> {
                   widget: SvgPicture.asset(
                     AssetsManager.time,
                     width: 18,
-                    color: Theme.of(context).colorScheme.background,
+                    color: Theme.of(context).colorScheme.onBackground,
                   ),
                   onTap: () async {
                     var picker = await showTimePicker(

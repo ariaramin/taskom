@@ -30,7 +30,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         emit(TaskLoadingState());
         var response = await _addTask.call(event.taskParams);
-        emit(TaskResponse(task: response));
+        emit(TaskResponse(response: response));
+        add(TaskListRequestEvent());
       },
     );
 
@@ -38,7 +39,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         emit(TaskLoadingState());
         var response = await _updateTask.call(event.taskParams);
-        emit(TaskResponse(task: response));
+        emit(TaskResponse(response: response));
+        add(TaskListRequestEvent());
       },
     );
   }
