@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taskom/config/components/task_list.dart';
 import 'package:taskom/config/constants/constants.dart';
-import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_state.dart';
 
 class HomeTaskList extends StatelessWidget {
-  final Function(List<TaskModel> response) onResponseRetrieved;
+  final Function(int taskListLength) onResponseRetrieved;
 
   const HomeTaskList({
     Key? key,
@@ -20,7 +19,7 @@ class HomeTaskList extends StatelessWidget {
       listener: (context, state) {
         if (state is TaskListResponse) {
           state.taskList.fold((l) => 0, (response) {
-            onResponseRetrieved(response);
+            onResponseRetrieved(response.length);
           });
         }
       },

@@ -12,5 +12,7 @@ abstract class TaskRepository {
 
   Future<Either<Failure, String>> updateTask(TaskModel taskModel);
 
+  Future<Either<Failure, String>> updateTaskStatus(String id, bool status);
+
   Future<Either<Failure, String>> deleteTask(String id);
 }

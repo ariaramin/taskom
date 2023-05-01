@@ -111,6 +111,28 @@ class TaskDatasourceImpl extends TaskDatasource {
   }
 
   @override
+  Future updateTaskStatus(String id, bool status) async {
+    try {
+      if (AuthManager.isLogedIn()) {
+        await _dio.patch(
+          "${Constants.TASKS_RECORDS_URL}/$id",
+          options: Options(
+            headers: {"Authorization": "Bearer ${AuthManager.getToken()}"},
+          ),
+          data: {"isDone": status},
+        );
+      }
+    } on DioError catch (error) {
+      throw ApiException(
+        code: error.response?.statusCode,
+        message: error.response?.data["message"],
+      );
+    } catch (_) {
+      rethrow;
+    }
+  }
+
+  @override
   Future deleteTask(String id) async {
     try {
       if (AuthManager.isLogedIn()) {

@@ -10,5 +10,7 @@ abstract class TaskDatasource {
 
   Future updateTask(TaskModel taskModel);
 
+  Future updateTaskStatus(String id, bool status);
+
   Future deleteTask(String id);
 }

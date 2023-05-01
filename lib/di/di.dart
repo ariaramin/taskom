@@ -34,6 +34,7 @@ import 'package:taskom/features/task/domain/usecase/get_all_tasks.dart';
 import 'package:taskom/features/task/domain/usecase/get_all_tasks_date.dart';
 import 'package:taskom/features/task/domain/usecase/get_gallery.dart';
 import 'package:taskom/features/task/domain/usecase/update_task.dart';
+import 'package:taskom/features/task/domain/usecase/update_task_status.dart';
 
 var locator = GetIt.instance;
 
@@ -78,4 +79,5 @@ Future initGetIt() async {
   locator.registerFactory<GetGallery>(() => GetGallery());
   locator.registerFactory<AddTask>(() => AddTask());
   locator.registerFactory<UpdateTask>(() => UpdateTask());
+  locator.registerFactory<UpdateTaskStatus>(() => UpdateTaskStatus());
 }

@@ -28,9 +28,7 @@ class TaskList extends StatelessWidget {
                     horizontal: 14,
                     vertical: 10,
                   ),
-                  child: TaskItem(
-                    task: taskList[index],
-                  ),
+                  child: TaskItem(task: taskList[index]),
                 );
               },
             ),

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
 import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/data/datasource/task_datasource.dart';
@@ -53,6 +52,19 @@ class TaskRepositoryImpl extends TaskRepository {
   Future<Either<Failure, String>> updateTask(TaskModel taskModel) async {
     try {
       await _datasource.updateTask(taskModel);
+      return right(Constants.TASK_SAVED_MESSAGE);
+    } on ApiException catch (error) {
+      return left(Failure.serverFailure(error.message));
+    } on SocketException {
+      return left(Failure.connectionFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> updateTaskStatus(
+      String id, bool status) async {
+    try {
+      await _datasource.updateTaskStatus(id, status);
       return right(Constants.TASK_SAVED_MESSAGE);
     } on ApiException catch (error) {
       return left(Failure.serverFailure(error.message));

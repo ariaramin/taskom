@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/domain/params/task_params.dart';
+import 'package:taskom/features/task/domain/params/update_task_status_params.dart';
 
 abstract class TaskEvent extends Equatable {}
 
@@ -26,6 +27,15 @@ class UpdateTaskRequestEvent extends TaskEvent {
   final TaskParams? taskParams;
 
   UpdateTaskRequestEvent({this.taskParams});
+
+  @override
+  List<Object?> get props => [];
+}
+
+class UpdateTaskStatusRequestEvent extends TaskEvent {
+  final UpdateTaskStatusParams? updateTaskStatusParams;
+
+  UpdateTaskStatusRequestEvent({this.updateTaskStatusParams});
 
   @override
   List<Object?> get props => [];

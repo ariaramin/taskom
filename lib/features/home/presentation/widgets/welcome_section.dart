@@ -6,6 +6,8 @@ import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
+import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
+import 'package:taskom/features/home/presentation/bloc/home_state.dart';
 
 class WelcomeSection extends StatelessWidget {
   const WelcomeSection({
@@ -14,10 +16,11 @@ class WelcomeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
-        if (state is UserResponseState) {
-          return state.response.fold((l) => const SizedBox(), (response) {
+        if (state.authState is UserResponseState) {
+          var authState = state.authState as UserResponseState;
+          return authState.response.fold((l) => const SizedBox(), (response) {
             return Row(
               children: [
                 ContinuousRectangle(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:taskom/config/components/app_button.dart';
 import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/features/authentication/data/util/auth_manager.dart';
 import 'package:taskom/features/category/presentation/bloc/category_bloc.dart';
 import 'package:taskom/features/category/presentation/bloc/category_event.dart';
@@ -120,8 +121,9 @@ class _TaskBodyState extends State<TaskBody> {
                   );
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-                  Navigator.pop(context);
+                    ..showSnackBar(snackBar).closed.then((value) {
+                      Navigator.popAndPushNamed(context, AppRouteNames.base);
+                    });
                 });
               }
             },

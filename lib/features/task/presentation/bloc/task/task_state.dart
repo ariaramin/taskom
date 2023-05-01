@@ -25,7 +25,7 @@ class TaskListResponse extends TaskState {
   });
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [taskList];
 }
 
 class TaskResponse extends TaskState {
