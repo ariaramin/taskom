@@ -1,5 +1,5 @@
-import 'package:taskom/config/usecase/usecase.dart';
-import 'package:taskom/config/util/filter.dart';
+import 'package:taskom/core/usecase/usecase.dart';
+import 'package:taskom/core/util/filter.dart';
 
 class TaskListParams extends Params {
   final Filter filter;

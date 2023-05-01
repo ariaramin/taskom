@@ -1,8 +1,7 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
-import 'package:taskom/config/util/api_exception.dart';
-import 'package:taskom/config/util/failure.dart';
+import 'package:taskom/core/util/api_exception.dart';
+import 'package:taskom/core/util/failure.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/category/data/datasource/category_datasource.dart';
 import 'package:taskom/features/category/data/models/category.dart';

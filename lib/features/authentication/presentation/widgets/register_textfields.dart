@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/app_textfield.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
-import 'package:taskom/config/constants/constants.dart';
 import 'package:taskom/config/theme/app_colors.dart';
-import 'package:taskom/config/util/failure.dart';
+import 'package:taskom/core/components/app_textfield.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
+import 'package:taskom/core/constants/constants.dart';
+import 'package:taskom/core/util/failure.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 

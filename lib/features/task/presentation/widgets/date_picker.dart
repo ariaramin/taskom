@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
 import 'package:taskom/features/task/presentation/widgets/date_picker_item.dart';
 
 class DatePicker extends StatefulWidget {

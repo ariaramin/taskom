@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskom/config/components/task_item.dart';
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/core/components/task_item.dart';
+import 'package:taskom/core/constants/constants.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
 class TaskList extends StatelessWidget {

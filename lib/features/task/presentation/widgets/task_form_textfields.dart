@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taskom/config/components/app_textfield.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/core/components/app_textfield.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
+import 'package:taskom/core/constants/constants.dart';
 
 class TaskFormTextFields extends StatelessWidget {
   final TextEditingController titleEditingController;

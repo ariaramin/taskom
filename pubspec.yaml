@@ -32,7 +32,6 @@ dependencies:
   package_info_plus: ^3.0.3
   persian_datetime_picker: ^2.5.0
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

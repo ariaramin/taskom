@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskom/config/components/app_chip.dart';
-import 'package:taskom/config/components/custom_appbar.dart';
+import 'package:taskom/core/components/app_chip.dart';
+import 'package:taskom/core/components/custom_appbar.dart';
 import 'package:taskom/features/home/presentation/widgets/welcome_section.dart';
 
 class HomeAppBar extends StatelessWidget {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/task_list.dart';
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/core/components/custom_back_button.dart';
+import 'package:taskom/core/components/task_list.dart';
+import 'package:taskom/core/constants/constants.dart';
 import 'package:taskom/features/search/presentation/bloc/search_bloc.dart';
 import 'package:taskom/features/search/presentation/bloc/search_event.dart';
 import 'package:taskom/features/search/presentation/bloc/search_state.dart';
-import 'package:taskom/config/components/custom_back_button.dart';
 import 'package:taskom/features/search/presentation/widgets/search_field.dart';
 
 class SearchBody extends StatefulWidget {

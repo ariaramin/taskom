@@ -1,9 +1,9 @@
-import 'package:taskom/config/constants/constants.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/core/constants/constants.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
 
 class Avatar {
   final String? id;

@@ -1,4 +1,4 @@
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/core/constants/constants.dart';
 
 class User {
   final String? id;

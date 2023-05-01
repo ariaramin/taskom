@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/cached_image.dart';
-import 'package:taskom/config/components/continuous_rectangle.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
 import 'package:taskom/config/theme/app_colors.dart';
-import 'package:taskom/features/authentication/presentation/bloc/auth/auth_bloc.dart';
+import 'package:taskom/core/components/cached_image.dart';
+import 'package:taskom/core/components/continuous_rectangle.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
 import 'package:taskom/features/authentication/presentation/bloc/auth/auth_state.dart';
 import 'package:taskom/features/home/presentation/bloc/home_bloc.dart';
 import 'package:taskom/features/home/presentation/bloc/home_state.dart';

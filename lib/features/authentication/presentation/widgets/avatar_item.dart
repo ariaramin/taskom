@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:taskom/config/components/cached_image.dart';
 import 'package:taskom/config/theme/app_colors.dart';
+import 'package:taskom/core/components/cached_image.dart';
 
 class AvatarItem extends StatelessWidget {
   final int currentIndex;

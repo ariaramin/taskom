@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:taskom/config/util/api_exception.dart';
+import 'package:taskom/core/util/api_exception.dart';
+import 'package:taskom/core/util/failure.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/authentication/data/datasource/profile_datasource.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';
-import 'package:taskom/config/util/failure.dart';
 import 'package:dartz/dartz.dart';
 import 'package:taskom/features/authentication/data/repository/profile_repository.dart';
 

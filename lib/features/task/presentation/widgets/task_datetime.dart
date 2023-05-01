@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
-import 'package:taskom/config/components/app_chip.dart';
-import 'package:taskom/config/components/section_title.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
-import 'package:taskom/config/extentions/timeofday_extention.dart';
+import 'package:taskom/core/components/app_chip.dart';
+import 'package:taskom/core/components/section_title.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
+import 'package:taskom/core/extentions/timeofday_extention.dart';
 
 class TaskDatetime extends StatefulWidget {
   final Jalali? currentDate;

@@ -1,4 +1,4 @@
-import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/data/repository/task_repository.dart';
 

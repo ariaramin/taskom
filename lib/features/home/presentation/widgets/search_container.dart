@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
 
 class SearchContainer extends StatelessWidget {
   const SearchContainer({

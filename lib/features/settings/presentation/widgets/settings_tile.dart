@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:taskom/config/components/continuous_rectangle.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
+import 'package:taskom/core/components/continuous_rectangle.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
 
 class SettingsTile extends StatelessWidget {
   final Widget icon;

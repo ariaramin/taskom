@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskom/config/theme/app_colors.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
 
 class DatePickerItem extends StatelessWidget {
   final DateTime date;

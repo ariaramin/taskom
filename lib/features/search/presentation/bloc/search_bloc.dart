@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/util/filter.dart';
+import 'package:taskom/core/util/filter.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/search/presentation/bloc/search_event.dart';
 import 'package:taskom/features/search/presentation/bloc/search_state.dart';

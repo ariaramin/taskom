@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/cached_image.dart';
-import 'package:taskom/config/components/section_title.dart';
 import 'package:taskom/config/theme/app_colors.dart';
+import 'package:taskom/core/components/cached_image.dart';
+import 'package:taskom/core/components/section_title.dart';
 import 'package:taskom/features/task/data/models/gallery.dart';
 import 'package:taskom/features/task/presentation/bloc/task_detail/task_detail_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task_detail/task_detail_state.dart';

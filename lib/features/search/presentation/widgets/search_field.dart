@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
 
 class SearchField extends StatelessWidget {
   final Function(String) onChange;

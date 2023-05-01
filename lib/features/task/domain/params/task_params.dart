@@ -1,4 +1,4 @@
-import 'package:taskom/config/usecase/usecase.dart';
+import 'package:taskom/core/usecase/usecase.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
 class TaskParams extends Params {

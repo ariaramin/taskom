@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:taskom/config/components/continuous_rectangle.dart';
-import 'package:taskom/config/components/section_title.dart';
+import 'package:taskom/core/components/continuous_rectangle.dart';
+import 'package:taskom/core/components/section_title.dart';
 import 'package:taskom/features/category/presentation/bloc/category_bloc.dart';
 import 'package:taskom/features/category/presentation/bloc/category_state.dart';
 

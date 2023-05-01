@@ -1,11 +1,11 @@
 import 'dart:io';
+import 'package:taskom/core/util/api_exception.dart';
+import 'package:taskom/core/util/failure.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/data/datasource/task_detail_datasource.dart';
 import 'package:taskom/features/task/data/models/gallery.dart';
 import 'package:dartz/dartz.dart';
 import 'package:taskom/features/task/data/repository/task_detail_repository.dart';
-import 'package:taskom/config/util/api_exception.dart';
-import 'package:taskom/config/util/failure.dart';
 
 class TaskDetailRepositoryImpl extends TaskDetailRepository {
   final TaskDetailDatasource _datasource = locator.get();

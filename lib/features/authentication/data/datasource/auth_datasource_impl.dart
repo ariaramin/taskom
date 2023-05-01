@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:taskom/config/constants/constants.dart';
-import 'package:taskom/config/util/api_exception.dart';
-import 'package:taskom/config/util/auth_exception.dart';
+import 'package:taskom/core/constants/constants.dart';
+import 'package:taskom/core/util/api_exception.dart';
+import 'package:taskom/core/util/auth_exception.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/authentication/data/datasource/auth_datasource.dart';
 import 'package:taskom/features/authentication/data/models/avatar.dart';

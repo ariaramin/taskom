@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/task_list.dart';
-import 'package:taskom/config/constants/constants.dart';
+import 'package:taskom/core/components/task_list.dart';
+import 'package:taskom/core/constants/constants.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_state.dart';
 

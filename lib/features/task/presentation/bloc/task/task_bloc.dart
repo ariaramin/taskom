@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
-import 'package:taskom/config/util/filter.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
+import 'package:taskom/core/util/filter.dart';
 import 'package:taskom/di/di.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/domain/usecase/add_task.dart';
@@ -54,19 +54,6 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         var response =
             await _updateTaskStatus.call(event.updateTaskStatusParams);
-        // emit(TaskResponse(response: response));
-        // var taskList = await _getAllTasks.call(
-        //   TaskListParams(
-        //     filter: Filter(
-        //         filterSequence:
-        //             "date ~ '${event.taskParams!.taskModel.dateTime!.getGregorianDate()}'"),
-        //   ),
-        // );
-        // var dateList = await _getAllTasksDate.call();
-        // emit(TaskListResponse(
-        //   taskList: taskList,
-        //   dateList: dateList,
-        // ));
         add(TaskListRequestEvent(
           taskListParams: TaskListParams(
             filter: Filter(

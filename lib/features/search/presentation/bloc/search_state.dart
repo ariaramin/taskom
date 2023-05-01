@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:dartz/dartz.dart';
-import 'package:taskom/config/util/failure.dart';
+import 'package:taskom/core/util/failure.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 
 abstract class SearchState extends Equatable {}

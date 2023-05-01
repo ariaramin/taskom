@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:msh_checkbox/msh_checkbox.dart';
-import 'package:taskom/config/components/app_chip.dart';
-import 'package:taskom/config/components/cached_image.dart';
-import 'package:taskom/config/constants/assets_manager.dart';
 import 'package:taskom/config/route/app_route_names.dart';
 import 'package:taskom/config/theme/app_colors.dart';
+import 'package:taskom/core/components/app_chip.dart';
+import 'package:taskom/core/components/cached_image.dart';
+import 'package:taskom/core/constants/assets_manager.dart';
 import 'package:taskom/features/task/data/models/task.dart';
 import 'package:taskom/features/task/domain/params/update_task_status_params.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
@@ -73,9 +73,7 @@ class _TaskItemState extends State<TaskItem> {
   Widget _getContent() {
     return Row(
       children: [
-        CachedImage(
-          imageUrl: widget.task.thumbnail!,
-        ),
+        CachedImage(imageUrl: widget.task.thumbnail!),
         const SizedBox(
           width: 8,
         ),

@@ -1,4 +1,4 @@
-import 'package:taskom/config/usecase/usecase.dart';
+import 'package:taskom/core/usecase/usecase.dart';
 
 class UpdateTaskStatusParams extends Params {
   final String id;

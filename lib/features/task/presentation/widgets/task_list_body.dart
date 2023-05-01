@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taskom/config/components/custom_appbar.dart';
-import 'package:taskom/config/components/task_list.dart';
-import 'package:taskom/config/components/timeline_tabbar.dart';
-import 'package:taskom/config/constants/constants.dart';
-import 'package:taskom/config/extentions/datetime_extention.dart';
+import 'package:taskom/core/components/custom_appbar.dart';
+import 'package:taskom/core/components/task_list.dart';
+import 'package:taskom/core/components/timeline_tabbar.dart';
+import 'package:taskom/core/constants/constants.dart';
+import 'package:taskom/core/extentions/datetime_extention.dart';
+import 'package:taskom/core/util/filter.dart';
 import 'package:taskom/features/task/data/models/task.dart';
-import 'package:taskom/config/util/filter.dart';
 import 'package:taskom/features/task/domain/params/task_list_params.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_bloc.dart';
 import 'package:taskom/features/task/presentation/bloc/task/task_event.dart';
@@ -30,11 +30,11 @@ class _TaskListBodyState extends State<TaskListBody> {
   List<DateTime>? _selectedTimeRange;
   int _activeTasksCount = 0;
 
-  @override
-  void initState() {
-    _filterTasks(DateTime.now(), null);
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _filterTasks(DateTime.now(), null);
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
