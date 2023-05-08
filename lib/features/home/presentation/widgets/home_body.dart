@@ -30,8 +30,8 @@ class _HomeBodyState extends State<HomeBody> {
 
   @override
   void initState() {
-    BlocProvider.of<HomeBloc>(context).add(HomeDataRequestEvent());
-    // _getData();
+    // BlocProvider.of<HomeBloc>(context).add(HomeDataRequestEvent());
+    _getData();
     // _getTaskData("date ~ '${DateTime.now().getGregorianDate()}'");
     super.initState();
   }

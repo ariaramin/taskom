@@ -38,7 +38,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TaskLoadingState());
         var response = await _addTask.call(event.taskParams);
         emit(TaskResponse(response: response));
-        // add(TaskListRequestEvent());
+        add(TaskListRequestEvent(
+          taskListParams: TaskListParams(
+            filter: Filter(
+                filterSequence:
+                    "date ~ '${DateTime.now().getGregorianDate()}'"),
+          ),
+        ));
       },
     );
 
@@ -47,13 +53,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TaskLoadingState());
         var response = await _updateTask.call(event.taskParams);
         emit(TaskResponse(response: response));
+        add(TaskListRequestEvent(
+          taskListParams: TaskListParams(
+            filter: Filter(
+                filterSequence:
+                    "date ~ '${DateTime.now().getGregorianDate()}'"),
+          ),
+        ));
       },
     );
 
     on<UpdateTaskStatusRequestEvent>(
       (event, emit) async {
-        var response =
-            await _updateTaskStatus.call(event.updateTaskStatusParams);
+        await _updateTaskStatus.call(event.updateTaskStatusParams);
         add(TaskListRequestEvent(
           taskListParams: TaskListParams(
             filter: Filter(
